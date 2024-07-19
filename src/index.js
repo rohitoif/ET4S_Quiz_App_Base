@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -10,6 +11,7 @@ import Home from './Components/Home';
 import Feedback from './Components/Feedback';
 import Header from './Components/Header';
 import './App.css'; // Make sure this path is correct based on your project structure
+import MatchQuestions from './MatchQuestions';
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -69,7 +71,12 @@ export default function MyPage() {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MyPage />
+    <Router>
+      <Routes>
+        <Route path="/" element={<MyPage />} />
+        <Route path="/match-questions" element={<MatchQuestions />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
 

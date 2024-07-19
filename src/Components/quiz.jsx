@@ -21,7 +21,7 @@ const Quiz = () => {
         {
             title: 'Quiz 3',
             description: 'Lunar Lessons',
-            link: 'https://www.carwow.co.uk/audi/rs5',
+            link: 'match-questions',
             quizType: 'match'
         },
     ];

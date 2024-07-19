@@ -1,0 +1,239 @@
+/* Your existing CSS... */
+@import url('https://fonts.googleapis.com/css2?family=ComicSansMS:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.match-questions {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url('C:\Users\Ashlyn Benoy\Documents\summer projects 2024\edutech\EduTech4Space_QuizApp\src\Images\5499483.jpg');
+  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 15px;
+}
+
+.header {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.power-ups {
+  display: flex;
+  gap: 10px;
+}
+
+.power-up-btn {
+  position: relative;
+  background: none;
+  border: none;
+  color: #DFC5fE;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.power-up-btn:disabled {
+  color: #555;
+  cursor: not-allowed;
+}
+
+.power-up-btn:hover:not(:disabled) {
+  transform: scale(1.2);
+}
+
+.score {
+  font-size: 16px;
+  text-align: right;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.columns-container {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.questions, .answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.question, .answer {
+  padding: 10px;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.question.selected {
+  background: #6F2DA8;
+  color: #ffffff;
+}
+
+.answer.correct {
+  background: #00cc66;
+  color: #ffffff;
+}
+
+.answer.incorrect {
+  background: #ff3300;
+  color: #ffffff;
+}
+
+.question:hover, .answer:hover {
+  background: #6F2DA8;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.check-btn-container {
+  margin-top: 20px;
+}
+
+.check-btn {
+  padding: 10px 20px;
+  background: #6F2DA8;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.check-btn:hover {
+  background: #9966cb;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.popup-content {
+  text-align: center;
+}
+
+.popup-content h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.popup-content p {
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.close-btn {
+  padding: 10px 20px;
+  background: #6F2DA8;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: #9966cb;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333333;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 10;
+  display: none;
+}
+
+.power-up-btn:hover .tooltip {
+  display: block;
+}
+
+@keyframes backgroundMove {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2em;
+  }
+
+  .score {
+    font-size: 1.2em;
+  }
+
+  .question, .answer {
+    font-size: 1em;
+    padding: 8px;
+  }
+
+  .check-btn {
+    font-size: 1.2em;
+    padding: 10px;
+  }
+}
