@@ -1,5 +1,5 @@
 body {
-  background-color: #e1dc5f;
+  background-color: #bcb607;
   font-family: "Architects Daughter", cursive;
   color: hsl(198, 1%, 29%);
   text-align: center;
@@ -11,11 +11,21 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .content {
   flex: 1;
   padding: 2rem;
+  background-image: url("./Images/ilovespace (3).jpg");
+  background-repeat: no-repeat; 
+  background-size: cover;
+  width:100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
 .container {
@@ -407,13 +417,15 @@ h1 {
   height:50%;
 }
 
-atthetop{
-  background-color: black;
+#atthetop{
+  background-color: white;
+  color:black;
   left:-32px;
   top:-32px;
-  height:63.994px;
+  height: 85px;
   padding-bottom: 5px;
   z-index: 100;
+  opacity: 0.9;
 }
 
 #panel1 , #panel2 , #panel3{
@@ -564,3 +576,4 @@ atthetop{
     display: none;
   }
 }
+

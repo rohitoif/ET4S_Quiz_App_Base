@@ -3,7 +3,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Editable } from "@chakra-ui/react";
 import { isContentEditable } from "@testing-library/user-event/dist/utils";
-function App() {
+import Quiz from "./Components/quiz";
+
+/* function App() {
   const [ran, setRan] = useState("");
   const [arr, setArr] = useState([]);
 
@@ -64,6 +66,13 @@ function App() {
       </ul>
     </div>
   );
+} */
+
+function App (){
+  return (
+    <Quiz />
+  );
+  
 }
 
 export default App;

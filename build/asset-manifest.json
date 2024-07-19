@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.788d014e.css",
+    "main.js": "/static/js/main.cba84987.js",
+    "static/media/ilovespace (3).jpg": "/static/media/ilovespace (3).97dcb1c5733e04fc3ff9.jpg",
+    "index.html": "/index.html",
+    "main.788d014e.css.map": "/static/css/main.788d014e.css.map",
+    "main.cba84987.js.map": "/static/js/main.cba84987.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.788d014e.css",
+    "static/js/main.cba84987.js"
+  ]
+}

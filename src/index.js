@@ -9,8 +9,19 @@ import MiniDrawer from './Components/Drawer';
 import Home from './Components/Home';
 import Feedback from './Components/Feedback';
 import Header from './Components/Header';
+import './App.css'; // Make sure this path is correct based on your project structure
 
-function MyPage() {
+// lib/utils.ts
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+
+
+
+export default function MyPage() {
   const [curPage, setPage] = useState(0); // Initialize curPage state with 0
 
   // Function to handle page change
@@ -22,10 +33,9 @@ function MyPage() {
     <div className="main-container">
       <Header />
       <MiniDrawer setPage={handleChangePage} curPage={curPage} />
-      <div className="content">
+      <div className="content w-fill">
         {curPage === 0 && (
           <React.StrictMode>
-            <h1>My Keeper App</h1>
             <Home />
           </React.StrictMode>
         )}
@@ -66,7 +76,7 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+//reportWebVitals();
 /*
 setInterval(function() {
   alert("Buck up, buddy! You still got a lot of stuff to do.");
