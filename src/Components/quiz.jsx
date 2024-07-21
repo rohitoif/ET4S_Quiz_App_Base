@@ -10,20 +10,21 @@ const Quiz = ({setQuizPage}) => {
         {
             title: 'Quiz 1',
             description: 'Planet Tours',
-            link: '/MCQ/MCQPage', // Updated link
+            link: './MCQ/MCQPage', // Updated link
             quizType: 'mcq',
             quizPage: 0
         },
         {
             title: 'Quiz 2',
             description: 'Solar Cosmics',
-            link: 'https://www.carwow.co.uk/mercedes/amg-gt-coupe',
+            link: './DragnDrop/dnd_Quiz',
             quizType: 'fill',
             quizPage: 1
         },
         {
             title: 'Quiz 3',
             description: 'Lunar Lessons',
+
             link: 'https://www.carwow.co.uk/audi/rs5',
             quizType: 'match',
             quizPage: 2

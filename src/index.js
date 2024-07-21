@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -11,7 +12,12 @@ import Feedback from './Components/Feedback';
 import Header from './Components/Header';
 import MCQPage from './Components/MCQ/MCQPage';
 import Quizzes from './Quizzes';
+import DndPage from './Components/DragnDrop/dnd_Quiz';
 import './App.css'; // Make sure this path is correct based on your project structure
+import MatchQuestions from './Components/Match/MatchQuestions';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import MatchPage from './Components/Match/MatchQuestions';
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -82,6 +88,21 @@ else if (quizMode ===1){
             <MCQPage />
           </React.StrictMode>
         )}
+
+          {quizPage === 1 && (
+          <React.StrictMode>
+            <DndProvider backend={HTML5Backend}>
+            <DndPage/>
+            </DndProvider>
+          </React.StrictMode>
+        )}
+
+          {quizPage === 2 && (
+          <React.StrictMode>
+            <br />
+            <MatchPage />
+          </React.StrictMode>
+          )}
     </div>
   );
 }
