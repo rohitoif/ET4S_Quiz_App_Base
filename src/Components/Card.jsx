@@ -1,7 +1,12 @@
 import React from 'react';
 import { Card as MuiCard, CardContent, Typography, Button, Box } from '@mui/material';
 
-const Card = ({ imgSrc, title, description, link, onAddToCompare }) => {
+const Card = ({ imgSrc, title, description, link, onAddToCompare, quizPage, navigate, setQuizPage }) => {
+
+    function handleClick() {
+        setQuizPage(quizPage);
+    }
+
     return (
         <Box
             sx={{
@@ -14,21 +19,21 @@ const Card = ({ imgSrc, title, description, link, onAddToCompare }) => {
                     boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
                     opacity: 0.9,
                 },
-                textTransform: 'none', 
-                display: 'block', 
+                textTransform: 'none',
+                display: 'block',
                 padding: 0,
-                width: '100%', // Ensure box takes full width
+                width: '100%',
             }}
         >
             <MuiCard
                 sx={{
-                    maxWidth: 300, // Set explicit width for the card
+                    maxWidth: 300,
                     minWidth: 'auto',
                     minHeight: 350,
                     maxHeight: 350,
                     margin: 'auto',
                     textAlign: 'left',
-                    boxSizing: 'border-box', // Include padding and border in the element's total width and height
+                    boxSizing: 'border-box',
                 }}
             >
                 <CardContent>
@@ -40,7 +45,7 @@ const Card = ({ imgSrc, title, description, link, onAddToCompare }) => {
                     </Typography>
                     <br />
                     <Box className="flex-col" sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
-                        <Button href={link} variant="contained" color="primary" sx={{}}>
+                        <Button onClick={handleClick} variant="contained" color="primary">
                             Take Quiz
                         </Button>
                         <br />
@@ -55,4 +60,5 @@ const Card = ({ imgSrc, title, description, link, onAddToCompare }) => {
 };
 
 export default Card;
+
 

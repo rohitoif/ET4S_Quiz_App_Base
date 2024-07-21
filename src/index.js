@@ -9,26 +9,34 @@ import MiniDrawer from './Components/Drawer';
 import Home from './Components/Home';
 import Feedback from './Components/Feedback';
 import Header from './Components/Header';
+import MCQPage from './Components/MCQ/MCQPage';
+import Quizzes from './Quizzes';
 import './App.css'; // Make sure this path is correct based on your project structure
 
 // lib/utils.ts
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import { BrowserRouter } from 'react-router-dom';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-
-
 export default function MyPage() {
   const [curPage, setPage] = useState(0); // Initialize curPage state with 0
-
+  const [quizMode, setQuizMode] = useState(0);
+  const [quizPage, setQuizPage] = useState(null);
   // Function to handle page change
   const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
+  const handleQuizPage = (newQuiz) => {
+    setQuizMode(1);
+    setQuizPage(newQuiz);
+  };
+
+  if(quizMode===0) {
   return (
     <div className="main-container">
       <Header />
@@ -42,7 +50,7 @@ export default function MyPage() {
         {curPage === 1 && (
           <React.StrictMode>
             <br />
-            <App />
+            <App setQuizPage={handleQuizPage}/>
           </React.StrictMode>
         )}
         {curPage === 2 && (
@@ -66,19 +74,41 @@ export default function MyPage() {
   );
 }
 
+else if (quizMode ===1){
+  return (
+    <div>
+        {quizPage === 0 && (
+          <React.StrictMode>
+            <MCQPage />
+          </React.StrictMode>
+        )}
+    </div>
+  );
+}
+
+/*{quizPage === 1 && (
+          <React.StrictMode>
+            <br />
+            <DndPage/>
+          </React.StrictMode>
+        )}
+        {quizPage === 2 && (
+          <React.StrictMode>
+            <br />
+            <MatchPage />
+          </React.StrictMode>
+        )}
+  );*/
+
+
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MyPage />
+    <BrowserRouter>
+      <MyPage />
+    </BrowserRouter>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-//reportWebVitals();
-/*
-setInterval(function() {
-  alert("Buck up, buddy! You still got a lot of stuff to do.");
-}, 10 * 1000); // 10 seconds
-*/
