@@ -3,7 +3,7 @@ function Hero() {
   return (
     //<div className="w-full flex justify-center items-center min-h-screen">
   <div className="container max-w-2xl p-8 bg-crea rounded-lg shadow-lg text-center hover:opacity-90">
-    <h1 className="my-4 text-5xl font-bold">
+    <h1 className="my-4 text-5xl font-bold text-black">
       Welcome to ET4S <br />Space Station 🚀🚀!!
     </h1>
     <p className="text-2xl mb-8">
