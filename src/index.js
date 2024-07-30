@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import App from './App1';
 import App2 from './App2';
@@ -18,21 +18,14 @@ import MatchQuestions from './Components/Match/MatchQuestions';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import MatchPage from './Components/Match/MatchQuestions';
+import Login from './Login';
+import ProtectedRoute from './ProtectedRoute';
 
-// lib/utils.ts
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
-import { BrowserRouter } from 'react-router-dom';
-
-export function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
-
-export default function MyPage() {
-  const [curPage, setPage] = useState(0); // Initialize curPage state with 0
+const MyPage = () => {
+  const [curPage, setPage] = useState(0);
   const [quizMode, setQuizMode] = useState(0);
   const [quizPage, setQuizPage] = useState(null);
-  // Function to handle page change
+
   const handleChangePage = (newPage) => {
     setPage(newPage);
   };
@@ -42,75 +35,54 @@ export default function MyPage() {
     setQuizPage(newQuiz);
   };
 
-  if(quizMode===0) {
-  return (
-    <div className="main-container">
-      <Header />
-      <MiniDrawer setPage={handleChangePage} curPage={curPage} />
-      <div className="content w-fill">
-        {curPage === 0 && (
-          <React.StrictMode>
-            <Home />
-          </React.StrictMode>
-        )}
-        {curPage === 1 && (
-          <React.StrictMode>
-            <br />
-            <App setQuizPage={handleQuizPage}/>
-          </React.StrictMode>
-        )}
-        {curPage === 2 && (
-          <React.StrictMode>
-            <br />
-            <h1>My Activities</h1>
-            <App2 />
-          </React.StrictMode>
-        )}
-        {curPage === 3 && (
-          <React.StrictMode>
-            <br />
-            <h1>Feedback and Suggestions</h1>
-            <Feedback />
-          </React.StrictMode>
-        )}
-        {/* Add more conditions as needed for other pages */}
-      </div>     
-      <Footer />
-    </div>
-  );
-}
-
-else if (quizMode ===1){
-  return (
-    <div>
+  if (quizMode === 0) {
+    return (
+      <div className="main-container">
+        <Header />
+        <MiniDrawer setPage={handleChangePage} curPage={curPage} />
+        <div className="content w-fill">
+          {curPage === 0 && (
+            <React.StrictMode>
+              <Home />
+            </React.StrictMode>
+          )}
+          {curPage === 1 && (
+            <React.StrictMode>
+              <br />
+              <App setQuizPage={handleQuizPage} />
+            </React.StrictMode>
+          )}
+          {curPage === 2 && (
+            <React.StrictMode>
+              <br />
+              <h1>My Activities</h1>
+              <App2 />
+            </React.StrictMode>
+          )}
+          {curPage === 3 && (
+            <React.StrictMode>
+              <br />
+              <h1>Feedback and Suggestions</h1>
+              <Feedback />
+            </React.StrictMode>
+          )}
+        </div>
+        <Footer />
+      </div>
+    );
+  } else if (quizMode === 1) {
+    return (
+      <div>
         {quizPage === 0 && (
           <React.StrictMode>
             <MCQPage />
           </React.StrictMode>
         )}
-
-          {quizPage === 1 && (
+        {quizPage === 1 && (
           <React.StrictMode>
             <DndProvider backend={HTML5Backend}>
-            <DndPage/>
+              <DndPage />
             </DndProvider>
-          </React.StrictMode>
-        )}
-
-          {quizPage === 2 && (
-          <React.StrictMode>
-            <br />
-            <MatchPage />
-          </React.StrictMode>
-          )}
-    </div>
-  );
-}
-
-/*{quizPage === 1 && (
-          <React.StrictMode>
-            <br />
-            <DndPage/>
           </React.StrictMode>
         )}
         {quizPage === 2 && (
@@ -119,17 +91,29 @@ else if (quizMode ===1){
             <MatchPage />
           </React.StrictMode>
         )}
-  );*/
-
-
-}
+      </div>
+    );
+  }
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <MyPage />
-    </BrowserRouter>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <MyPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
 
+reportWebVitals();
