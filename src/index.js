@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App1';
@@ -19,6 +19,9 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import MatchPage from './Components/Match/MatchQuestions';
 
+import { db } from './firebaseConfig'; // Adjust path if needed
+import { doc, collection, getDoc, addDoc } from 'firebase/firestore';
+
 // lib/utils.ts
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -32,6 +35,26 @@ export default function MyPage() {
   const [curPage, setPage] = useState(0); // Initialize curPage state with 0
   const [quizMode, setQuizMode] = useState(0);
   const [quizPage, setQuizPage] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const docRef = doc(db, 'et4s_main', 'sma3a8QTdRs853NBgawA'); // Document ID
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setUser(docSnap.data());
+      } else {
+        console.log('Cannot Find User!');
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+
+
+
   // Function to handle page change
   const handleChangePage = (newPage) => {
     setPage(newPage);
@@ -50,6 +73,10 @@ export default function MyPage() {
       <div className="content w-fill">
         {curPage === 0 && (
           <React.StrictMode>
+            <p>Name: {user ? user.name : 'Loading...'}</p>
+            <p>Rank: {user ? user.rank : 'Loading...'}</p>
+            <p>xp: {user ? user.xp : 'Loading...'}</p>
+            <p>totalscore:{user ? user.totalscore :'Loading...'}</p>
             <Home />
           </React.StrictMode>
         )}
@@ -107,20 +134,6 @@ else if (quizMode ===1){
   );
 }
 
-/*{quizPage === 1 && (
-          <React.StrictMode>
-            <br />
-            <DndPage/>
-          </React.StrictMode>
-        )}
-        {quizPage === 2 && (
-          <React.StrictMode>
-            <br />
-            <MatchPage />
-          </React.StrictMode>
-        )}
-  );*/
-
 
 }
 
@@ -132,4 +145,5 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
 
