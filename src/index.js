@@ -17,12 +17,14 @@ import './App.css'; // Ensure this path is correct based on your project structu
 import MatchQuestions from './Components/Match/MatchQuestions';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { AuthProvider } from './useAuth';
 import MatchPage from './Components/Match/MatchQuestions';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
-
+import { UserProvider , useUser } from './UserContext';
 import { db } from './firebaseConfig'; // Adjust path if needed
 import { doc, getDoc } from 'firebase/firestore';
+
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -35,12 +37,14 @@ export function cn(...inputs) {
 export default function MyPage() {
   const [curPage, setPage] = useState(0);
   const [quizMode, setQuizMode] = useState(0);
-  const [quizPage, setQuizPage] = useState(null);
+  const [quizPage, setQuizPage] = useState(0);
   const [user, setUser] = useState(null);
+  const { userId } = useUser();
+  
 
   useEffect(() => {
     const fetchUser = async () => {
-      const docRef = doc(db, 'et4s_main', 'sma3a8QTdRs853NBgawA'); // Document ID
+      const docRef = doc(db, 'et4s_main', userId); // Document ID
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -61,6 +65,8 @@ export default function MyPage() {
     setQuizMode(1);
     setQuizPage(newQuiz);
   };
+
+  
 
   if (quizMode === 0) {
     return (
@@ -101,7 +107,8 @@ export default function MyPage() {
         <Footer />
       </div>
     );
-  } else if (quizMode === 1) {
+  }
+   else if (quizMode === 1) {
     return (
       <div>
         {quizPage === 0 && (
@@ -130,20 +137,24 @@ export default function MyPage() {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <MyPage />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <MyPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+      </UserProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 

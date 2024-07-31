@@ -10,7 +10,6 @@ const Quiz = ({setQuizPage}) => {
         {
             title: 'Quiz 1',
             description: 'Planet Tours',
-            link: './MCQ/MCQPage', // Updated link
             quizType: 'mcq',
             quizPage: 0
         },

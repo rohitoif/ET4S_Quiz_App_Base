@@ -1,20 +1,30 @@
 // src/Login.js
 import React, { useState } from 'react';
-import { auth, signInWithEmailAndPassword, signInWithGoogle } from './firebase';
+import { auth, signInWithEmailAndPassword, signInWithGoogle, db, collection, query, where, getDocs } from './firebase';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setUserId } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem('user', userCredential.user.uid); // Save user ID or token
-      navigate('/home'); // Redirect to home page
+      const userEmail = userCredential.user.email;
+
+      // Search Firestore for the user ID
+      const userId = await getUserIdByEmail(userEmail);
+      if (userId) {
+        setUserId(userId); // Set user ID in context
+        navigate('/home'); // Redirect to home page
+      } else {
+        setError('User not found in database');
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -23,11 +33,32 @@ const Login = () => {
   const handleSignInWithGoogle = async () => {
     try {
       const result = await signInWithGoogle();
-      localStorage.setItem('user', result.user.uid); // Save user ID or token
-      navigate('/home'); // Redirect to home page
+      const userEmail = result.user.email;
+
+      // Search Firestore for the user ID
+      const userId = await getUserIdByEmail(userEmail);
+      if (userId) {
+        setUserId(userId); // Set user ID in context
+        navigate('/home'); // Redirect to home page
+      } else {
+        setError('User not found in database');
+      }
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const getUserIdByEmail = async (email) => {
+    console.log(email);
+    const q = query(collection(db, 'et4s_main'), where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot.docs[0]);
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      console.log(userDoc.id);
+      return userDoc.id;
+    }
+    return null;
   };
 
   return (
@@ -130,3 +161,4 @@ const styles = {
 };
 
 export default Login;
+
