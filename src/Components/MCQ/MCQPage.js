@@ -10,9 +10,10 @@ import Guide from './MCQ_Guidebook.js';
 import Pic from './MCQ_Images.js';
 import Hint from './MCQ_Hint.js';
 import './MCQ.css';
+import CustomizedDialogs from './Quiz_Dialog.jsx';
 let index = 0;
 
-function MCQPage() {
+function MCQPage(props) {
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState(mcq.length > 0 ? mcq[index].question : '');
   const [choices, setChoices] = useState(mcq.length > 0 ? mcq[index].choices : []);
@@ -70,14 +71,21 @@ function MCQPage() {
       setShowHint(false);
       setDestroyedChoice(null);
     } else {
-      alert('All questions have been answered. Final score is ' + (selectedChoice === mcq[index - 1].correctAnswer ? score + 1 : score));
-      resetQuiz();
+      //alert('All questions have been answered. Final score is ' + (selectedChoice === mcq[index - 1].correctAnswer ? score + 1 : score));
+      endQuiz();
     }
   };
 
   const endQuiz = () => {
+   // showDialogBox();
     alert('Quiz has ended. Final score is ' + score);
     resetQuiz();
+  };
+
+  const showDialogBox = () => {
+    return (
+      <CustomizedDialogs />
+    );
   };
 
   const toggleHint = () => {
@@ -86,16 +94,7 @@ function MCQPage() {
 
   const resetQuiz = () => {
     index = 0;
-    setScore(0);
-    setQuestion(mcq.length > 0 ? mcq[index].question : '');
-    setChoices(mcq.length > 0 ? mcq[index].choices : []);
-    setImages1(img.length > 0 ? img[index].src : '');
-    setImages2(img2.length > 0 ? img2[index].src2 : '');
-    setSelectedChoice('');
-    setTime(600);
-    setShowHint(false);
-    setDestroyedChoice(null);
-    setPowerups({ bomb: true, asteroid: true, hacker: true });
+    props.handleEnding();
   };
 
   const handlePowerUp = () => {

@@ -21,10 +21,9 @@ import { AuthProvider } from './useAuth';
 import MatchPage from './Components/Match/MatchQuestions';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
-import { UserProvider , useUser } from './UserContext';
+import { UserProvider, useUser } from './UserContext';
 import { db } from './firebaseConfig'; // Adjust path if needed
 import { doc, getDoc } from 'firebase/firestore';
-
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -39,8 +38,7 @@ export default function MyPage() {
   const [quizMode, setQuizMode] = useState(0);
   const [quizPage, setQuizPage] = useState(0);
   const [user, setUser] = useState(null);
-  const { userId } = useUser();
-  
+  const { userId, username, setUsername , rank , setRank , xp , setXp , totalscore , setTotalscore} = useUser(); // Correctly deconstruct all the required values
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,14 +46,19 @@ export default function MyPage() {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        setUser(docSnap.data());
+        const userData = docSnap.data();
+        setUser(userData);
+        setUsername(userData.name);
+        setRank(userData.rank);
+        setXp(userData.xp);
+        setTotalscore(userData.totalscore);
       } else {
         console.log('Cannot Find User!');
       }
     };
 
     fetchUser();
-  }, []);
+  }, [userId, setUsername]); // Add dependencies for the effect
 
   const handleChangePage = (newPage) => {
     setPage(newPage);
@@ -66,7 +69,10 @@ export default function MyPage() {
     setQuizPage(newQuiz);
   };
 
-  
+  const handleEnding = () => {
+    setQuizMode(0);
+    setPage(1);
+  };
 
   if (quizMode === 0) {
     return (
@@ -76,10 +82,10 @@ export default function MyPage() {
         <div className="content w-fill">
           {curPage === 0 && (
             <React.StrictMode>
-              <p>Name: {user ? user.name : 'Loading...'}</p>
-              <p>Rank: {user ? user.rank : 'Loading...'}</p>
-              <p>XP: {user ? user.xp : 'Loading...'}</p>
-              <p>Total Score: {user ? user.totalscore : 'Loading...'}</p>
+              <p>Name: {user ? username : 'Loading...'}</p>
+              <p>Rank: {user ? rank : 'Loading...'}</p>
+              <p>XP: {user ? xp : 'Loading...'}</p>
+              <p>Total Score: {user ? totalscore : 'Loading...'}</p>
               <Home />
             </React.StrictMode>
           )}
@@ -107,13 +113,12 @@ export default function MyPage() {
         <Footer />
       </div>
     );
-  }
-   else if (quizMode === 1) {
+  } else if (quizMode === 1) {
     return (
       <div>
         {quizPage === 0 && (
           <React.StrictMode>
-            <MCQPage />
+            <MCQPage handleEnding={handleEnding}/>
           </React.StrictMode>
         )}
         {quizPage === 1 && (
@@ -139,25 +144,26 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <UserProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <MyPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <MyPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Router>
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>
 );
 
 reportWebVitals();
+
 
 
