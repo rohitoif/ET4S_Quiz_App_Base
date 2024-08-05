@@ -124,14 +124,14 @@ export default function MyPage() {
         {quizPage === 1 && (
           <React.StrictMode>
             <DndProvider backend={HTML5Backend}>
-              <DndPage />
+              <DndPage handleEnding={handleEnding}/>
             </DndProvider>
           </React.StrictMode>
         )}
         {quizPage === 2 && (
           <React.StrictMode>
             <br />
-            <MatchPage />
+            <MatchPage handleEnding={handleEnding}/>
           </React.StrictMode>
         )}
       </div>

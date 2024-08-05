@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./MatchQuestions.css";
-import { FaPlusCircle, FaQuestionCircle } from "react-icons/fa";
+import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
+import { useUser } from '../../UserContext.js';
 
 const questions = [
   { id: 1, question: "BLACK HOLE", answerId: 1 },
@@ -18,11 +19,12 @@ const answers = [
   { id: 3, answer: "Star-forming region" },
 ];
 
-function MatchPage() {
+let correctCount = 0;
+
+function MatchPage(props) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [matches, setMatches] = useState([]);
   const [markedAnswers, setMarkedAnswers] = useState({});
-  const [correctCount, setCorrectCount] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [timeLeft, setTimeLeft] = useState(60);
@@ -30,7 +32,10 @@ function MatchPage() {
   const [giveAnswerUsed, setGiveAnswerUsed] = useState(false);
   const [isHoveringQuestionMark, setIsHoveringQuestionMark] = useState(false);
   const [isHoveringPlusSign, setIsHoveringPlusSign] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
   const canvasRef = useRef(null);
+
+  const { userId } = useUser();
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,6 +57,8 @@ function MatchPage() {
         setTimeLeft(timeLeft - 1);
       }, 1000);
       return () => clearTimeout(timer);
+    } else {
+      handleCheckMatches();
     }
   }, [timeLeft]);
 
@@ -76,6 +83,7 @@ function MatchPage() {
 
       setMatches(newMatches);
       setSelectedQuestion(null);
+      setSubmitDisabled(false); // Enable submit button once a match is made
     }
   };
 
@@ -90,8 +98,41 @@ function MatchPage() {
     });
 
     setMarkedAnswers(newMarkedAnswers);
-    setCorrectCount(newCorrectCount);
-    setShowPopup(true);
+    correctCount = newCorrectCount;
+    setSubmitDisabled(true); // Disable submit button when matches are checked
+    endQuizRoute();
+  };
+
+  const endQuizRoute = async () => {
+    console.log("score=" + correctCount);
+    try {
+      if (userId) {
+        const userRef = doc(db, 'et4s_main', userId);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
+          const xp = parseInt(userDoc.data().xp, 10);
+          const quizScores = userDoc.data().Quizscore || [];
+          const XP = (correctCount * 100)
+          quizScores.push(correctCount); // Add the new score to the array
+
+          await updateDoc(userRef, {
+            totalscore: (currentTotalScore + correctCount).toString(),
+            Quizscore: quizScores, // Update the array with the new score
+            xp: xp + XP
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+    alert(`Quiz Ended! Your Score: ${correctCount}`);
+    resetQuiz();
+  };
+
+  const resetQuiz = () => {
+    correctCount = 0;
+    props.handleEnding();
   };
 
   const drawLines = () => {
@@ -119,7 +160,7 @@ function MatchPage() {
       context.beginPath();
       context.moveTo(lineStartX, lineStartY);
       context.lineTo(lineEndX, lineEndY);
-      context.strokeStyle = match.automated ? "#00ff00"  : "#ffffff"; 
+      context.strokeStyle = match.automated ? "#00ff00" : "#ffffff";
       context.lineWidth = 2;
       context.stroke();
     });
@@ -179,16 +220,6 @@ function MatchPage() {
     }
   };
 
-  const handleQuestionMarkHover = () => {
-    setIsHoveringQuestionMark(true);
-    setPopupMessage("Want a hint? Here's a free correct answer for your hard work!");
-  };
-
-  const handleQuestionMarkLeave = () => {
-    setIsHoveringQuestionMark(false);
-    setPopupMessage("");
-  };
-
   const handlePlusSignHover = () => {
     setIsHoveringPlusSign(true);
     setPopupMessage("Want extra time? Here's a gift from us!");
@@ -211,19 +242,21 @@ function MatchPage() {
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-            <FaPlusCircle size={20} />
-            {isHoveringPlusSign && <div className="tooltip">{popupMessage}</div>}
+            💣
+            {/* <FaPlusCircle size={20} />
+            {isHoveringPlusSign && <div className="tooltip">{popupMessage}</div>} */}
           </button>
           <button
             className="power-up-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            <FaQuestionCircle
+            🤖
+            {/* <FaQuestionCircle
               size={20}
               onMouseEnter={handleQuestionMarkHover}
               onMouseLeave={handleQuestionMarkLeave}
-            />
+            /> */}
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
         </div>
@@ -264,7 +297,7 @@ function MatchPage() {
       </div>
       <canvas ref={canvasRef} className="canvas" />
       <div className="check-btn-container">
-        <button className="check-btn" onClick={handleCheckMatches}>
+        <button id="submit" className="check-btn" onClick={handleCheckMatches} disabled={submitDisabled}>
           &#x2192;
         </button>
       </div>
@@ -282,3 +315,4 @@ function MatchPage() {
 }
 
 export default MatchPage;
+

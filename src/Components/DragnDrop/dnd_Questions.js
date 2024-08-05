@@ -117,7 +117,7 @@ const Question = ({ question, onSubmit }) => {
             </div>
           </>
         )}
-        <button onClick={handleSubmit}>Submit 👍🏻 </button>
+        <button id="submit" onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );

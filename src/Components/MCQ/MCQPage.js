@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
 import { motion, AnimatePresence } from 'framer-motion';
 import Question from './MCQ_Question.jsx';
 import Choices from './MCQ_Choices.jsx';
@@ -10,16 +9,19 @@ import Guide from './MCQ_Guidebook.js';
 import Pic from './MCQ_Images.js';
 import Hint from './MCQ_Hint.js';
 import './MCQ.css';
-import CustomizedDialogs from './Quiz_Dialog.jsx';
-let index = 0;
+import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
+import { useUser } from '../../UserContext.js';
 
+let index = 0;
+let score = 0;
+let disableSubmitButton = false;
+let powerUpCount = 0;
 function MCQPage(props) {
-  const [score, setScore] = useState(0);
-  const [question, setQuestion] = useState(mcq.length > 0 ? mcq[index].question : '');
-  const [choices, setChoices] = useState(mcq.length > 0 ? mcq[index].choices : []);
-  const [images1, setImages1] = useState(img.length > 0 ? img[index].src : '');
-  const [images2, setImages2] = useState(img2.length > 0 ? img2[index].src2 : '');
-  const [hint, setHint] = useState(mcq.length > 0 ? mcq[index].hint : '');
+  const [question, setQuestion] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].question : '');
+  const [choices, setChoices] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].choices : []);
+  const [images1, setImages1] = useState(img.length > 0 && index < mcq.length ? img[index].src : '');
+  const [images2, setImages2] = useState(img2.length > 0 && index < mcq.length ? img2[index].src2 : '');
+  const [hint, setHint] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].hint : '');
   const [showHint, setShowHint] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState('');
   const [time, setTime] = useState(600);
@@ -30,8 +32,9 @@ function MCQPage(props) {
   const [powerups, setPowerups] = useState({
     bomb: true,
     asteroid: true,
-    hacker: true
+    hacker: true,
   });
+  const { userId } = useUser(); // Get userId from context
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -53,8 +56,13 @@ function MCQPage(props) {
   };
 
   const checkAnswer = () => {
+    if (disableSubmitButton) {
+      return;
+    }
+    disableSubmitButton = true;
+
     if (selectedChoice === mcq[index].correctAnswer) {
-      setScore((prevScore) => prevScore + 1);
+      score++;
     }
     handleChange();
   };
@@ -70,22 +78,38 @@ function MCQPage(props) {
       setSelectedChoice('');
       setShowHint(false);
       setDestroyedChoice(null);
+      disableSubmitButton = false;
     } else {
-      //alert('All questions have been answered. Final score is ' + (selectedChoice === mcq[index - 1].correctAnswer ? score + 1 : score));
       endQuiz();
     }
   };
 
-  const endQuiz = () => {
-   // showDialogBox();
-    alert('Quiz has ended. Final score is ' + score);
-    resetQuiz();
-  };
+  const endQuiz = async () => {
+    console.log("score=" + score);
+    try {
+      if (userId) {
+        const userRef = doc(db, 'et4s_main', userId);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
+          const xp = parseInt(userDoc.data().xp, 10);
+          const quizScores = userDoc.data().Quizscore || [];
+          const XP = (score * 100) - (powerUpCount * 100);
+          quizScores.push(score); // Add the new score to the array
 
-  const showDialogBox = () => {
-    return (
-      <CustomizedDialogs />
-    );
+          await updateDoc(userRef, {
+            totalscore: (currentTotalScore + score).toString(),
+            Quizscore: quizScores, // Update the array with the new score
+            xp: xp + XP
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+    alert(`Quiz Ended! Your Score: ${score}`);
+    resetQuiz();
+    disableSubmitButton = false;
   };
 
   const toggleHint = () => {
@@ -94,6 +118,8 @@ function MCQPage(props) {
 
   const resetQuiz = () => {
     index = 0;
+    score = 0;
+    powerUpCount = 0;
     props.handleEnding();
   };
 
@@ -103,6 +129,7 @@ function MCQPage(props) {
       setShowTimerMessage(true);
       setTimeout(() => setShowTimerMessage(false), 2000);
       setPowerups((prev) => ({ ...prev, bomb: false }));
+      powerUpCount++;
     }
   };
 
@@ -112,6 +139,7 @@ function MCQPage(props) {
       const incorrectChoices = choices.filter(choice => choice !== correctAnswer);
       const choiceToDestroy = incorrectChoices[Math.floor(Math.random() * incorrectChoices.length)];
       setDestroyedChoice(choiceToDestroy);
+      powerUpCount++;
       setTimeout(() => {
         const remainingChoices = choices.filter(choice => choice !== choiceToDestroy);
         setChoices(remainingChoices);
@@ -125,10 +153,11 @@ function MCQPage(props) {
     if (powerups.hacker) {
       setShowHackingEffect(true);
       setTimeout(() => {
-        setScore((prevScore) => prevScore + 1);
+        score++;
         handleChange();
         setShowHackingEffect(false);
       }, 2000);
+      powerUpCount++;
       setPowerups((prev) => ({ ...prev, hacker: false }));
     }
   };
@@ -146,7 +175,7 @@ function MCQPage(props) {
   return (
     <div className="mainContent">
       <div className="mainQuestion" style={{ float: 'left' }}>
-        <h3>{index + 1}/{mcq.length}</h3>
+        <h3>{Math.min(mcq.length, index + 1)}/{mcq.length}</h3>
         <p>Score: {score}</p>
         <div style={{ position: 'relative' }}>
           <p>Time Left: {formatTime(time)}</p>
@@ -206,9 +235,9 @@ function MCQPage(props) {
           ❓
         </motion.button>
         <Question question={question} />
-        <Choices 
-          choices={choices} 
-          onChoiceSelect={handleChoiceSelect} 
+        <Choices
+          choices={choices}
+          onChoiceSelect={handleChoiceSelect}
           destroyedChoice={destroyedChoice}
         />
         <br />
@@ -217,7 +246,7 @@ function MCQPage(props) {
         {showHint && <Hint text={hint} />}
         <br />
         <Pic images1={images1} images2={images2} />
-        <Submit onClick={checkAnswer} />
+        <Submit onClick={checkAnswer} disabled={disableSubmitButton} />
       </div>
       <div style={{ float: 'right' }}>{document && <Guide />}</div>
       {showHackingEffect && (
@@ -244,11 +273,5 @@ function MCQPage(props) {
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <MCQPage />
-  </React.StrictMode>
-);
-
 export default MCQPage;
+

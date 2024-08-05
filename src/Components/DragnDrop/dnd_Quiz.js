@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Question from './dnd_Questions';
+import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
+import { useUser } from '../../UserContext.js';
 
 const questions = [
   {
@@ -19,19 +21,74 @@ const questions = [
   }
 ];
 
-const DndPage = ({ onComplete }) => {
+let score = 0;
+
+const DndPage = (props) => {
+  const { userId } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(300); // Set initial time (e.g., 300 seconds for 5 minutes)
+
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setTimeout(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      endQuizRoute(score);
+    }
+  }, [timeLeft]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const handleAnswerSubmission = (isCorrect) => {
-    if (isCorrect) setScore(score + 1);
-
+    console.log("score_before :", score);
+    if (isCorrect) score++;
+    console.log("score_after :", score);
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
       setCurrentQuestionIndex(nextIndex);
     } else {
-      onComplete(score + 1);
+      endQuizRoute(score);
+      document.getElementById("submit").disabled = true;
     }
+  };
+
+  const endQuizRoute = async (finalScore) => {
+    console.log("score=" + finalScore);
+    try {
+      if (userId) {
+        const userRef = doc(db, 'et4s_main', userId);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
+          const xp = parseInt(userDoc.data().xp, 10);
+          const quizScores = userDoc.data().Quizscore || [];
+          const XP = (finalScore * 100);
+          quizScores.push(finalScore); // Add the new score to the array
+
+          await updateDoc(userRef, {
+            totalscore: (currentTotalScore + finalScore).toString(),
+            Quizscore: quizScores, // Update the array with the new score
+            xp: xp + XP
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+    alert(`Quiz Ended! Your Score: ${finalScore}`);
+    resetQuiz();
+  };
+
+  const resetQuiz = () => {
+    score = 0;
+    props.handleEnding();
   };
 
   const handlePowerUp = () => {
@@ -60,6 +117,7 @@ const DndPage = ({ onComplete }) => {
 
   return (
     <div className="quiz">
+      <div className="timer">Time Left: {formatTime(timeLeft)}</div>
       <Question
         key={currentQuestionIndex}
         question={questions[currentQuestionIndex]}
