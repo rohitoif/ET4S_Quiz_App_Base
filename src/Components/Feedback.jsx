@@ -1,75 +1,53 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
-import Rating from '@mui/material/Rating';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import React from 'react';
 
-const StyledRating = styled(Rating)(({ theme }) => ({
-  '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
-    color: theme.palette.action.disabled,
-  },
-}));
+const MissionPlanetHopper = (props) => {
+  function handleQuizPage(){
+    props.setQuizPage(2);
+    //0 for MCQ
+    //1 for DragNDrop
+    //2 for Matching
+  };
 
-const customIcons = {
-  1: {
-    icon: <SentimentVeryDissatisfiedIcon color="error" />,
-    label: 'Very Dissatisfied',
-  },
-  2: {
-    icon: <SentimentDissatisfiedIcon color="error" />,
-    label: 'Dissatisfied',
-  },
-  3: {
-    icon: <SentimentSatisfiedIcon color="warning" />,
-    label: 'Neutral',
-  },
-  4: {
-    icon: <SentimentSatisfiedAltIcon color="success" />,
-    label: 'Satisfied',
-  },
-  5: {
-    icon: <SentimentVerySatisfiedIcon color="success" />,
-    label: 'Very Satisfied',
-  },
-};
-
-function IconContainer(props) {
-  const { value, ...other } = props;
-  return <span {...other}>{customIcons[value].icon}</span>;
-}
-
-IconContainer.propTypes = {
-  value: PropTypes.number.isRequired,
-};
-
-export default function Feedback() {
   return (
-    <Box>
-    <StyledRating
-      name="highlight-selected-only"
-      defaultValue={2}
-      IconContainerComponent={IconContainer}
-      getLabelText={(value) => customIcons[value].label}
-      highlightSelectedOnly
-    />
-<br /><br />
-        <TextField
-          id="outlined-textarea"
-          label="Let us know what you think"
-          placeholder="Your Feedback"
-          multiline 
-          width="50%"
-        />
+    <div className= "min-h-screen text-white flex flex-col items-center p-8">
+      <div className="w-full max-w-4xl bg-purple-800 rounded-lg p-6 relative">
+        <div className="absolute -top-6 left-0 right-0 text-center">
+          <span className="bg-purple-700 px-4 py-2 rounded-full text-lg font-semibold">
+            ALL THE BEST .. RANGER !!
+          </span>
+        </div>
 
-    </Box>
+        <div className="flex mt-4">
+          <div className="flex-grow mr-4">
+            <h1 className="text-3xl font-bold mb-4">Mission Planet Hopper</h1>
+            <div className="bg-purple-700 rounded-lg p-4 flex items-center">
+              <span className="text-4xl mr-4">🐕</span>
+              <div>
+                <h2 className="text-xl font-semibold text-orange-400">Commander Doggo</h2>
+                <p>Explore all planets b4 time runs out</p>
+              </div>
+            </div>
+            <button onClick={handleQuizPage} className="mt-4 bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-6 rounded-full text-xl">
+              Mission is a GO!! 
+            </button>
+          </div>
 
+          <div className="w-1/3">
+            <div className="bg-red-500 rounded-t-lg p-2 text-center font-bold">
+              MISSION STATISTICS
+            </div>
+            <div className="bg-purple-600 rounded-b-lg p-4">
+              <p>
+                In this mission we explore concepts like : Big Bang , The expansion of the Universe , Formation of galaxies and MORE ... !!! READY UR GEARS !!!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default MissionPlanetHopper;
 
 

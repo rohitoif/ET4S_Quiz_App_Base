@@ -22,7 +22,7 @@ const signInWithGoogle = async () => {
   return signInWithPopup(auth, googleProvider);
 };
 
-export { auth, signInWithEmailAndPassword, signInWithGoogle, db, collection, query, where, getDocs, addDoc, updateDoc , arrayUnion , getDoc , doc};
+export { auth, signInWithEmailAndPassword, signInWithGoogle, db, collection, query, where, getDocs, addDoc, updateDoc , arrayUnion , getDoc , doc };
 
 
 

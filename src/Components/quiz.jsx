@@ -1,66 +1,54 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Card from './Card.jsx';
-import { Button } from '@mui/material';
 
-const Quiz = ({setQuizPage}) => {
-    const navigate = useNavigate();
+const MissionPlanetHopper = (props) => {
+  function handleQuizPage(){
+    props.setQuizPage(2);
+    //0 for MCQ
+    //1 for DragNDrop
+    //2 for Matching
+  };
 
-    const quizData = [
-        {
-            title: 'Quiz 1',
-            description: 'Planet Tours',
-            quizType: 'mcq',
-            quizPage: 0
-        },
-        {
-            title: 'Quiz 2',
-            description: 'Solar Cosmics',
-            link: './DragnDrop/dnd_Quiz',
-            quizType: 'fill',
-            quizPage: 1
-        },
-        {
-            title: 'Quiz 3',
-            description: 'Lunar Lessons',
+  return (
+    <div className= "min-h-screen text-white flex flex-col items-center p-8">
+      <div className="w-full max-w-4xl bg-purple-800 rounded-lg p-6 relative">
+        <div className="absolute -top-6 left-0 right-0 text-center">
+          <span className="bg-purple-700 px-4 py-2 rounded-full text-lg font-semibold">
+            ALL THE BEST .. RANGER !!
+          </span>
+        </div>
 
-            link: 'https://www.carwow.co.uk/audi/rs5',
-            quizType: 'match',
-            quizPage: 2
-        },
-    ];
-
-    return (
-        <section className="px-full py-16">
-            <h2 className="text-3xl text-white font-bold text-center mb-8">My Quiz</h2>
-            <br />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
-                {quizData.map((item, index) => (
-                    <Card
-                        key={index}
-                        title={item.title}
-                        description={item.description}
-                        quizType={item.quizType}
-                        link={item.link}
-                        quizPage={item.quizPage} // Added quizPage prop to Card component to pass quiz page number
-                        navigate={navigate}
-                        setQuizPage={setQuizPage} // Pass navigate function
-                    >
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => navigate(item.link)}
-                        >
-                            Start Quiz
-                        </Button>
-                    </Card>
-                ))}
+        <div className="flex mt-4">
+          <div className="flex-grow mr-4">
+            <h1 className="text-3xl font-bold mb-4">Mission Planet Hopper</h1>
+            <div className="bg-purple-700 rounded-lg p-4 flex items-center">
+              <span className="text-4xl mr-4">🐕</span>
+              <div>
+                <h2 className="text-xl font-semibold text-orange-400">Commander Doggo</h2>
+                <p>Explore all planets b4 time runs out</p>
+              </div>
             </div>
-        </section>
-    );
+            <button onClick={handleQuizPage} className="mt-4 bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-6 rounded-full text-xl">
+              Mission is a GO!! 
+            </button>
+          </div>
+
+          <div className="w-1/3">
+            <div className="bg-red-500 rounded-t-lg p-2 text-center font-bold">
+              MISSION STATISTICS
+            </div>
+            <div className="bg-purple-600 rounded-b-lg p-4">
+              <p>
+                In this mission we explore concepts like : Big Bang , The expansion of the Universe , Formation of galaxies and MORE ... !!! READY UR GEARS !!!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Quiz;
+export default MissionPlanetHopper;
 
 
 

@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import Footer from './Components/Footer';
 import MiniDrawer from './Components/Drawer';
 import Home from './Components/Home';
-import Feedback from './Components/Feedback';
+import MissionPlanetHopper from './Components/Feedback';
 import Header from './Components/Header';
 import MCQPage from './Components/MCQ/MCQPage';
 import Quizzes from './Quizzes';
@@ -92,21 +92,19 @@ export default function MyPage() {
           {curPage === 1 && (
             <React.StrictMode>
               <br />
-              <App setQuizPage={handleQuizPage} />
+              <MissionPlanetHopper setQuizPage={handleQuizPage}/>
             </React.StrictMode>
           )}
           {curPage === 2 && (
             <React.StrictMode>
               <br />
-              <h1>My Activities</h1>
               <App2 />
             </React.StrictMode>
           )}
           {curPage === 3 && (
             <React.StrictMode>
               <br />
-              <h1>Feedback and Suggestions</h1>
-              <Feedback />
+              <MissionPlanetHopper setQuizPage={handleQuizPage}/>
             </React.StrictMode>
           )}
         </div>
