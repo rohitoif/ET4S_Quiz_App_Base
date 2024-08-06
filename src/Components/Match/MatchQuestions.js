@@ -230,6 +230,12 @@ function MatchPage(props) {
     setPopupMessage("");
   };
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+
   return (
     <div className="match-questions">
       <div className="header">
@@ -262,7 +268,7 @@ function MatchPage(props) {
         </div>
         <div className="score">
           <div>Points: {correctCount}</div>
-          <div>Time Left: {timeLeft}s</div>
+          <div>Time Left: {formatTime(timeLeft)}</div>
         </div>
       </div>
       <div className="columns-container">
@@ -315,4 +321,3 @@ function MatchPage(props) {
 }
 
 export default MatchPage;
-
