@@ -43,7 +43,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-export default function CustomizedAccordions() {
+export default function CustomizedAccordions({handleChangePage}) {
   const [expanded, setExpanded] = React.useState('');
 
   const handleMouseEnter = (panel) => (event, newExpanded) => {
@@ -59,7 +59,7 @@ export default function CustomizedAccordions() {
 
   return (
     <div>
-        <Hero />
+      <Hero handleChangePage={handleChangePage}/>
       <Accordion id="panel1" expanded={expanded === 'panel1'} onMouseEnter={handleMouseEnter('panel1')}  onMouseLeave={handleMouseLeave('panel1')}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography><b>Who we are ?</b></Typography>

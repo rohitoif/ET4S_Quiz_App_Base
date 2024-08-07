@@ -21,7 +21,7 @@ const answers = [
 
 let correctCount = 0;
 
-function MatchPage(props) {
+function A_MatchPage(props) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [matches, setMatches] = useState([]);
   const [markedAnswers, setMarkedAnswers] = useState({});
@@ -320,4 +320,4 @@ function MatchPage(props) {
   );
 }
 
-export default MatchPage;
+export default A_MatchPage;

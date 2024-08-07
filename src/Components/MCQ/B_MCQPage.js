@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Question from './MCQ_Question.jsx';
 import Choices from './MCQ_Choices.jsx';
 import Submit from './MCQ_Submit.jsx';
-import { mcq } from './MCQ_Data.js';
+import { mcq } from './B_MCQ_Data.js';
 import { img, img2 } from './MCQ_Pics.js';
 import Guide from './MCQ_Guidebook.js';
 import Pic from './MCQ_Images.js';
@@ -16,7 +16,7 @@ let index = 0;
 let score = 0;
 let disableSubmitButton = false;
 let powerUpCount = 0;
-function MCQPage(props) {
+function B_MCQPage(props) {
   const [question, setQuestion] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].question : '');
   const [choices, setChoices] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].choices : []);
   const [images1, setImages1] = useState(img.length > 0 && index < mcq.length ? img[index].src : '');
@@ -273,5 +273,4 @@ function MCQPage(props) {
   );
 }
 
-export default MCQPage;
-
+export default B_MCQPage;

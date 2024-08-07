@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Question from './dnd_Questions';
+import Question from './dnd_Questions.js';
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
 
 const questions = [
   {
-    id: 1, text: 'React is a ___ library.', options: ['JavaScript', 'Python', 'Ruby', 'Java'], answer: 'JavaScript'
+    id: 1, text: '_____ is the red planet.', options: ['Saturn', 'Mars', 'Sun', 'Venus'], answer: 'Mars'
   },
-  { id: 2, text: 'The capital of India is ___.', options: ['Berlin', 'Delhi', 'Paris', 'Rome'], answer: 'Delhi' },
+  { id: 2, text: 'High radiation bursts of sun are called ____.', options: ['Solar Flares', 'Sun Bursts', 'UV leak', 'Polar Bursts'], answer: 'Solar Flares' },
   {
     id: 3,
     text: 'Which one is a star?',
@@ -23,11 +23,10 @@ const questions = [
 
 let score = 0;
 
-const DndPage = (props) => {
+const B_DndPage = (props) => {
   const { userId } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(300); // Set initial time (e.g., 300 seconds for 5 minutes)
-
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -128,4 +127,4 @@ const DndPage = (props) => {
   );
 };
 
-export default DndPage;
+export default B_DndPage;
