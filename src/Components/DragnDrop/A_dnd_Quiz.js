@@ -4,6 +4,8 @@ import Question from './dnd_Questions.js';
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
 
+let powerUpCount = 0 ;
+let index=0;
 const questions = [
   {
     id: 1, text: 'React is a ___ library.', options: ['JavaScript', 'Python', 'Ruby', 'Java'], answer: 'JavaScript'
@@ -61,7 +63,7 @@ const A_DndPage = (props) => {
       }, 1000);
       return () => clearTimeout(timer);
     } else {
-      endQuizRoute(score);
+      endQuiz(score);
     }
   }, [timeLeft, quizPlayed]);
 
@@ -73,15 +75,27 @@ const A_DndPage = (props) => {
 
   const handleAnswerSubmission = (isCorrect) => {
     if (isCorrect) score++;
-    const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex < questions.length) {
-      setCurrentQuestionIndex(nextIndex);
+    if(index<questions.length){
+    alert(`correct answer is : ${questions[index].answer}`);}
+    index++;
+    if (index < questions.length) {
+      setCurrentQuestionIndex(index);
     } else {
       endQuizRoute(score);
     }
   };
 
   const endQuizRoute = async (finalScore) => {
+    if (index < questions.length) {
+      setCurrentQuestionIndex(index);
+    } else {
+      endQuiz(score);
+      document.getElementById("submit").disabled = true;
+    }
+  };
+
+  const endQuiz = async (finalScore) => {
+    console.log("score=" + score);
     try {
       if (userId) {
         const userRef = doc(db, 'et4s_main', userId);
@@ -92,24 +106,32 @@ const A_DndPage = (props) => {
           const xp = parseInt(userData.xp, 10) || 0;
           const quizScores = userData.Quizscore || [];
           const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
-
+          const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
+          const totalCorrect = currentTotalScore + score;
+          const XP = (score * 100) - (powerUpCount * 100);
+          const newTotalQuestions = totalQuestions + questions.length;
+          const newAccuracy = (newTotalQuestions > 0) ? (totalCorrect / newTotalQuestions) * 100 : 0;
+  
           quizScores.push(finalScore); // Add the new score to the array
-          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true in hasPlayedQuizzes map
-
+          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
+  
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + finalScore).toString(),
             Quizscore: quizScores,
-            xp: xp + finalScore * 100,
-            hasPlayedQuizzes: hasPlayedQuizzes, // Update the map with the quiz ID
+            xp: xp + XP,
+            accuracy: newAccuracy,
+            totalQuestions: newTotalQuestions,
+            hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
           });
         }
       }
     } catch (error) {
       console.error('Error updating document:', error);
     }
-    alert(`Quiz Ended! Your Score: ${finalScore}`);
+    alert(`Quiz Ended! Your Score: ${score}`);
     resetQuiz();
   };
+  
 
   const resetQuiz = () => {
     score = 0;
@@ -117,6 +139,7 @@ const A_DndPage = (props) => {
   };
 
   const handlePowerUp = () => {
+    powerUpCount++;
     const correctAnswer = questions[currentQuestionIndex].answer;
     const currentOptions = questions[currentQuestionIndex].options;
     const incorrectOptions = currentOptions.filter(option => {

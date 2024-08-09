@@ -130,7 +130,7 @@ export default function MiniDrawer({ setPage, curPage }) {
       case 'My Spaceship':
         setPage(2);
         break;
-      case 'Feedback':
+      case 'Citations':
         setPage(3);
         break;
       default:
@@ -167,7 +167,7 @@ export default function MiniDrawer({ setPage, curPage }) {
         </DrawerHeader>
 
         <List onMouseLeave={handleDrawerClose} onMouseEnter={handleDrawerOpen}>
-          {['HomePage', 'Quiz', 'My Spaceship', 'Feedback'].map((text, index) => (
+          {['HomePage', 'Quiz', 'My Spaceship', 'Citations'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <br />
               <ListItemButton onClick={handleClick} name={text}

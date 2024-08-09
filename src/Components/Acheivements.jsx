@@ -97,7 +97,7 @@ const CosmicAchievements = () => {
         setRank(userData.rank);
         setXp(userData.xp);
         setTotalscore(userData.totalscore);
-        setAccuracy(userData.accuracy);
+        setAccuracy(Math.floor(userData.accuracy));
       } else {
         console.log('Cannot Find User!');
       }

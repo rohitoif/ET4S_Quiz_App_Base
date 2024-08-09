@@ -28,7 +28,6 @@ function Hero({handleChangePage}) {
     </div>
   </div>
 //</div>
-
   );
 }
 

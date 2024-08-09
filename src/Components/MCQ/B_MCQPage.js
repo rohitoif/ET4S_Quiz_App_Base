@@ -67,7 +67,7 @@ function B_MCQPage(props) {
       setTime((prevTime) => {
         if (prevTime === 0) {
           clearInterval(timer);
-          endQuiz();
+          endQuizRoute();
           return 0;
         }
         return prevTime - 1;
@@ -90,6 +90,7 @@ function B_MCQPage(props) {
     if (selectedChoice === mcq[index].correctAnswer) {
       score++;
     }
+    alert(`Correct Answer is : ${mcq[index].correctAnswer}`);
     handleChange();
   };
 
@@ -106,11 +107,11 @@ function B_MCQPage(props) {
       setDestroyedChoice(null);
       disableSubmitButton = false;
     } else {
-      endQuiz();
+      endQuizRoute();
     }
   };
 
-  const endQuiz = async () => {
+  const endQuizRoute = async (finalScore) => {
     console.log("score=" + score);
     try {
       if (userId) {
@@ -118,19 +119,27 @@ function B_MCQPage(props) {
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
-
-          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
-          const xp = parseInt(userDoc.data().xp, 10);
-          const quizScores = userDoc.data().Quizscore || [];
+          const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
+          const xp = parseInt(userData.xp, 10) || 0;
+          const quizScores = userData.Quizscore || [];
+          const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
           const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
+  
+          const totalCorrect = currentTotalScore + score;
           const XP = (score * 100) - (powerUpCount * 100);
+          const newTotalQuestions = totalQuestions + mcq.length;
+          const newAccuracy = totalQuestions ? (totalCorrect / newTotalQuestions) * 100 : 0; // Avoid division by zero
+  
           quizScores.push(score); // Add the new score to the array
-          hasPlayedQuizzes[quizID] = true;
+          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
+  
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + score).toString(),
-            Quizscore: quizScores, // Update the array with the new score
+            Quizscore: quizScores,
             xp: xp + XP,
-            hasPlayedQuizzes: hasPlayedQuizzes,
+            accuracy: newAccuracy, // Update the accuracy in Firestore
+            totalQuestions: newTotalQuestions, // Update total questions in Firestore
+            hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
           });
         }
       }
@@ -138,8 +147,8 @@ function B_MCQPage(props) {
       console.error('Error updating document:', error);
     }
     alert(`Quiz Ended! Your Score: ${score}`);
+
     resetQuiz();
-    disableSubmitButton = false;
   };
 
   const toggleHint = () => {
@@ -356,7 +365,7 @@ function B_MCQPage(props) {
           alignItems: 'center',
           zIndex: 1000
         }}>
-          <div>HACKING IN PROGRESS...</div>
+          <div>HACKING IN PROGRESS...THE CORRECT ANSWER IS : {mcq[index].correctAnswer}</div>
           <div style={{ marginTop: '20px' }}>+1 POINT</div>
         </div>
       )}

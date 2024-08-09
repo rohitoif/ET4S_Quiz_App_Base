@@ -1,54 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import Question from './dnd_Questions.js';
-import { db, updateDoc, doc, getDoc } from '../../firebase.js';
+import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
 
+let powerUpCount = 0 ;
+let index=0;
 const questions = [
-  {
-    id: 1,
-    text: '_____ is the red planet.',
-    options: ['Saturn', 'Mars', 'Sun', 'Venus'],
-    answer: 'Mars',
-  },
-  {
-    id: 2,
-    text: 'High radiation bursts of sun are called ____.',
-    options: ['Solar Flares', 'Sun Bursts', 'UV leak', 'Polar Bursts'],
-    answer: 'Solar Flares',
-  },
-  {
-    id: 3,
-    text: 'Which one is a star?',
-    options: [
-      {
-        type: 'image',
-        src: 'https://images.pexels.com/photos/20337608/pexels-photo-20337608/free-photo-of-saturn-planet-and-rings.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        alt: 'saturn',
-      },
-      {
-        type: 'image',
-        src: 'https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        alt: 'earth',
-      },
-      {
-        type: 'image',
-        src: 'https://images.pexels.com/photos/87611/sun-fireball-solar-flare-sunlight-87611.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        alt: 'sun',
-      },
-      {
-        type: 'image',
-        src: 'https://images.pexels.com/photos/12498752/pexels-photo-12498752.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        alt: 'jupiter',
-      },
-    ],
-    answer: 'sun',
-  },
-];
+    {
+      id: 1,
+      text: '___ is the red planet.',
+      options: ['Saturn', 'Mars', 'Sun', 'Venus'],
+      answer: 'Mars',
+    },
+    {
+      id: 2,
+      text: 'High radiation bursts of sun are called __.',
+      options: ['Solar Flares', 'Sun Bursts', 'UV leak', 'Polar Bursts'],
+      answer: 'Solar Flares',
+    },
+    {
+      id: 3,
+      text: 'Which one is a star?',
+      options: [
+        {
+          type: 'image',
+          src: 'https://images.pexels.com/photos/20337608/pexels-photo-20337608/free-photo-of-saturn-planet-and-rings.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          alt: 'saturn',
+        },
+        {
+          type: 'image',
+          src: 'https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          alt: 'earth',
+        },
+        {
+          type: 'image',
+          src: 'https://images.pexels.com/photos/87611/sun-fireball-solar-flare-sunlight-87611.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          alt: 'sun',
+        },
+        {
+          type: 'image',
+          src: 'https://images.pexels.com/photos/12498752/pexels-photo-12498752.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          alt: 'jupiter',
+        },
+      ],
+      answer: 'sun',
+    },
+  ];
 
 let score = 0;
-let quizID = 5;
-
+const quizID = 1;
 const B_DndPage = (props) => {
   const { userId } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -56,6 +57,7 @@ const B_DndPage = (props) => {
   const [quizPlayed, setQuizPlayed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation(); // Use useLocation to get the current location
+
 
   useEffect(() => {
     const checkQuizPlayed = async () => {
@@ -85,7 +87,7 @@ const B_DndPage = (props) => {
       }, 1000);
       return () => clearTimeout(timer);
     } else {
-      endQuizRoute(score);
+      endQuiz(score);
     }
   }, [timeLeft, quizPlayed]);
 
@@ -97,43 +99,63 @@ const B_DndPage = (props) => {
 
   const handleAnswerSubmission = (isCorrect) => {
     if (isCorrect) score++;
-    const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex < questions.length) {
-      setCurrentQuestionIndex(nextIndex);
+    if(index<questions.length){
+    alert(`correct answer is : ${questions[index].answer}`);}
+    index++;
+    if (index < questions.length) {
+      setCurrentQuestionIndex(index);
     } else {
       endQuizRoute(score);
     }
   };
-  console.log('Quiz ID:', quizID);
 
   const endQuizRoute = async (finalScore) => {
+    if (index < questions.length) {
+      setCurrentQuestionIndex(index);
+    } else {
+      endQuiz(score);
+      document.getElementById("submit").disabled = true;
+    }
+  };
+
+  const endQuiz = async (finalScore) => {
+    console.log("score=" + score);
     try {
       if (userId) {
         const userRef = doc(db, 'et4s_main', userId);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
-          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
-          const xp = parseInt(userDoc.data().xp, 10);
-          const quizScores = userDoc.data().Quizscore || [];
-          const hasPlayedQuizzes = userDoc.data().hasPlayedQuizzes || {};
-
+          const userData = userDoc.data();
+          const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
+          const xp = parseInt(userData.xp, 10) || 0;
+          const quizScores = userData.Quizscore || [];
+          const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
+          const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
+          const totalCorrect = currentTotalScore + score;
+          const XP = (score * 100) - (powerUpCount * 100);
+          const newTotalQuestions = totalQuestions + questions.length;
+          const newAccuracy = (newTotalQuestions > 0) ? (totalCorrect / newTotalQuestions) * 100 : 0;
+  
           quizScores.push(finalScore); // Add the new score to the array
-          // Update the specific quiz ID to true in hasPlayedQuizzes map
-          hasPlayedQuizzes[quizID] = true;
+          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
+  
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + finalScore).toString(),
             Quizscore: quizScores,
-            xp: xp + finalScore * 100,
-            hasPlayedQuizzes: hasPlayedQuizzes, // Update the map with the quiz ID
+            xp: xp + XP,
+            accuracy: newAccuracy,
+            totalQuestions: newTotalQuestions,
+            hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
           });
         }
       }
     } catch (error) {
       console.error('Error updating document:', error);
     }
-    alert(`Quiz Ended! Your Score: ${finalScore}`);
+    alert(`Quiz Ended! Your Score: ${score}`);
     resetQuiz();
   };
+  
 
   const resetQuiz = () => {
     score = 0;
@@ -141,9 +163,10 @@ const B_DndPage = (props) => {
   };
 
   const handlePowerUp = () => {
+    powerUpCount++;
     const correctAnswer = questions[currentQuestionIndex].answer;
     const currentOptions = questions[currentQuestionIndex].options;
-    const incorrectOptions = currentOptions.filter((option) => {
+    const incorrectOptions = currentOptions.filter(option => {
       if (typeof option === 'object') {
         return option.alt !== correctAnswer;
       } else {
@@ -152,7 +175,7 @@ const B_DndPage = (props) => {
     });
 
     if (incorrectOptions.length > 0) {
-      const remainingOptions = currentOptions.filter((option) => {
+      const remainingOptions = currentOptions.filter(option => {
         if (typeof option === 'object') {
           return option.alt === correctAnswer || option.alt !== incorrectOptions[0].alt;
         } else {
@@ -235,6 +258,7 @@ const B_DndPage = (props) => {
         onSubmit={handleAnswerSubmission}
         onPowerUp={handlePowerUp}
       />
+      {/* Add similar button here if needed */}
     </div>
   );
 };

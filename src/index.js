@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect , useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App1';
@@ -14,7 +13,7 @@ import A_MCQPage from './Components/MCQ/A_MCQPage.js';
 import B_MCQPage from './Components/MCQ/B_MCQPage.js';
 import Quizzes from './Quizzes';
 import DndPage from './Components/DragnDrop/A_dnd_Quiz.js';
-import './App.css'; // Ensure this path is correct based on your project structure
+import './App.css';
 import MatchQuestions from './Components/Match/A_MatchQuestions.js';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -26,9 +25,11 @@ import B_DndPage from './Components/DragnDrop/B_dnd_Quiz.js';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import { UserProvider, useUser } from './UserContext';
-import { db } from './firebaseConfig'; // Adjust path if needed
+import { db } from './firebaseConfig';
 import { doc, onSnapshot } from 'firebase/firestore';
 import MissionPlanetHopper2 from './Components/B_Quiz.jsx';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Citations from './Components/Citations.jsx';
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -38,17 +39,33 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
+// Function to handle orientation check
+const checkOrientation = () => {
+    if (window.innerHeight > window.innerWidth) {
+        document.body.classList.add('portrait');
+        alert('Please rotate your device to landscape mode for optimum visibility :)');
+    } else {
+        document.body.classList.remove('portrait');
+    }
+};
+
+// Initial check on load
+checkOrientation();
+
+// Event listener for resizing the window
+window.addEventListener('resize', checkOrientation);
+
 export default function MyPage() {
   const [curPage, setPage] = useState(0);
   const [quizMode, setQuizMode] = useState(0);
   const [quizPage, setQuizPage] = useState(0);
   const [user, setUser] = useState(null);
   const [myClass, setMyClass] = useState(null);
-  const { userId, username, setUsername, rank, setRank, xp, setXp, totalscore, setTotalscore } = useUser(); // Correctly deconstruct all the required values
+  const { userId, username, setUsername, rank, setRank, xp, setXp, totalscore, setTotalscore } = useUser();
 
   useEffect(() => {
     if (userId) {
-      const docRef = doc(db, 'et4s_main', userId); // Document ID
+      const docRef = doc(db, 'et4s_main', userId);
 
       const unsubscribe = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
@@ -64,7 +81,6 @@ export default function MyPage() {
         }
       });
 
-      // Cleanup subscription on unmount
       return () => unsubscribe();
     }
   }, [userId, setUsername, setRank, setXp, setTotalscore]);
@@ -112,6 +128,12 @@ export default function MyPage() {
               <MissionPlanetHopper2 setQuizPage={handleQuizPage} />
             </React.StrictMode>
           )}
+          {curPage === 3 && (
+            <React.StrictMode>
+              <br />
+              <Citations />
+            </React.StrictMode>
+          )}
         </div>
         <Footer />
       </div>
@@ -144,11 +166,11 @@ export default function MyPage() {
           </React.StrictMode>
         )}
         {quizPage === 5 && (
-        <React.StrictMode>
+          <React.StrictMode>
             <DndProvider backend={HTML5Backend}>
-            <B_DndPage handleEnding={handleEnding} />
-          </DndProvider>
-        </React.StrictMode>
+              <B_DndPage handleEnding={handleEnding} />
+            </DndProvider>
+          </React.StrictMode>
         )}
         {quizPage === 6 && (
           <React.StrictMode>
@@ -184,6 +206,9 @@ root.render(
     </AuthProvider>
   </React.StrictMode>
 );
+
+// Cleanup event listener when the app unmounts
+window.removeEventListener('resize', checkOrientation);
 
 reportWebVitals();
 
