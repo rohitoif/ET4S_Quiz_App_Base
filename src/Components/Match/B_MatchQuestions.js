@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "./MatchQuestions.css";
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
+
 
 const questions = [
   { id: 1, question: "SATURN", answerId: 1 },
@@ -20,8 +22,9 @@ const answers = [
 ];
 
 let correctCount = 0;
+const quizID = 6; // Set constant quiz ID
 
-function B_MatchPage(props) {
+function A_MatchPage(props) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [matches, setMatches] = useState([]);
   const [markedAnswers, setMarkedAnswers] = useState({});
@@ -33,8 +36,9 @@ function B_MatchPage(props) {
   const [isHoveringQuestionMark, setIsHoveringQuestionMark] = useState(false);
   const [isHoveringPlusSign, setIsHoveringPlusSign] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [quizPlayed, setQuizPlayed] = useState(false); // New state for checking if quiz is played
   const canvasRef = useRef(null);
-
+  const navigate = useNavigate(); // Use navigate for navigation
   const { userId } = useUser();
 
   useEffect(() => {
@@ -61,6 +65,25 @@ function B_MatchPage(props) {
       handleCheckMatches();
     }
   }, [timeLeft]);
+
+  useEffect(() => {
+    const checkQuizPlayed = async () => {
+      if (userId) {
+        try {
+          const userRef = doc(db, 'et4s_main', userId);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            const playedQuizzes = userDoc.data().hasPlayedQuizzes || {};
+            setQuizPlayed(playedQuizzes[quizID] || false); // Check if the specific quiz is played
+          }
+        } catch (error) {
+          console.error('Error checking quiz status:', error);
+        }
+      }
+    };
+
+    checkQuizPlayed();
+  }, [userId]);
 
   const handleQuestionClick = (question) => {
     setSelectedQuestion(question);
@@ -110,16 +133,21 @@ function B_MatchPage(props) {
         const userRef = doc(db, 'et4s_main', userId);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
-          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
-          const xp = parseInt(userDoc.data().xp, 10);
+          const currentTotalScore = parseInt(userDoc.data().totalscore, 10) || 0;
+          const xp = parseInt(userDoc.data().xp, 10) || 0;
           const quizScores = userDoc.data().Quizscore || [];
-          const XP = (correctCount * 100)
+          const XP = (correctCount * 100);
           quizScores.push(correctCount); // Add the new score to the array
+          const hasPlayedQuizzes = userDoc.data().hasPlayedQuizzes || {};
+
+          // Update the specific quiz ID to true in hasPlayedQuizzes map
+          hasPlayedQuizzes[quizID] = true;
 
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + correctCount).toString(),
             Quizscore: quizScores, // Update the array with the new score
-            xp: xp + XP
+            xp: xp + XP,
+            hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
           });
         }
       }
@@ -236,6 +264,68 @@ function B_MatchPage(props) {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
+  if (quizPlayed) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        textAlign: 'center',
+        background: `url('https://images.pexels.com/photos/2303101/pexels-photo-2303101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center`,
+        backgroundSize: 'cover',
+        color: '#fff',
+        fontFamily: `'Space Mono', monospace`,
+        padding: '20px'
+      }}>
+        <div>
+          <h2 style={{
+            fontSize: '3rem',
+            marginBottom: '20px',
+            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)'
+          }}>
+            You've Launched This Quiz Before!
+          </h2>
+          <p style={{
+            fontSize: '1.5rem',
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: '1.6',
+            textShadow: '1px 1px 5px rgba(0, 0, 0, 0.7)'
+          }}>
+            🚀 You've already completed this mission. Try exploring other quizzes to continue your space adventure!
+          </p>
+          <button
+            onClick={() => navigate('/')}
+            style={{
+              marginTop: '30px',
+              fontSize: '1.2rem',
+              textDecoration: 'none',
+              color: '#1e90ff',
+              border: '2px solid #1e90ff',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              transition: 'background-color 0.3s, color 0.3s',
+              display: 'inline-block',
+              backgroundColor: 'transparent',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = '#1e90ff';
+              e.target.style.color = '#fff';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.color = '#1e90ff';
+            }}
+          >
+            Back to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="match-questions">
       <div className="header">
@@ -249,8 +339,6 @@ function B_MatchPage(props) {
             onMouseLeave={handlePlusSignLeave}
           >
             💣
-            {/* <FaPlusCircle size={20} />
-            {isHoveringPlusSign && <div className="tooltip">{popupMessage}</div>} */}
           </button>
           <button
             className="power-up-btn"
@@ -258,11 +346,6 @@ function B_MatchPage(props) {
             disabled={giveAnswerUsed}
           >
             🤖
-            {/* <FaQuestionCircle
-              size={20}
-              onMouseEnter={handleQuestionMarkHover}
-              onMouseLeave={handleQuestionMarkLeave}
-            /> */}
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
         </div>
@@ -302,11 +385,13 @@ function B_MatchPage(props) {
         </div>
       </div>
       <canvas ref={canvasRef} className="canvas" />
-      <div className="check-btn-container">
-        <button id="submit" className="check-btn" onClick={handleCheckMatches} disabled={submitDisabled}>
-          &#x2192;
-        </button>
-      </div>
+      {!quizPlayed && (
+        <div className="check-btn-container">
+          <button id="submit" className="check-btn" onClick={handleCheckMatches} disabled={submitDisabled}>
+            &#x2192;
+          </button>
+        </div>
+      )}
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
@@ -320,4 +405,4 @@ function B_MatchPage(props) {
   );
 }
 
-export default B_MatchPage;
+export default A_MatchPage;

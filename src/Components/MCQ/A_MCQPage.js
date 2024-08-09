@@ -11,11 +11,13 @@ import Hint from './MCQ_Hint.js';
 import './MCQ.css';
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation
 
 let index = 0;
 let score = 0;
 let disableSubmitButton = false;
 let powerUpCount = 0;
+const quizID = 0; 
 function A_MCQPage(props) {
   const [question, setQuestion] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].question : '');
   const [choices, setChoices] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].choices : []);
@@ -34,8 +36,30 @@ function A_MCQPage(props) {
     asteroid: true,
     hacker: true,
   });
-  const { userId } = useUser(); // Get userId from context
+  const [quizPlayed, setQuizPlayed] = useState(false); // State to track if quiz has been played
 
+  const { userId } = useUser(); // Get userId from context
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
+  useEffect(() => {
+    const checkQuizPlayed = async () => {
+      if (userId) {
+        try {
+          const userRef = doc(db, 'et4s_main', userId);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            const playedQuizzes = userDoc.data().hasPlayedQuizzes || {};
+            setQuizPlayed(playedQuizzes[quizID] || false); // Check if the specific quiz is played
+          }
+        } catch (error) {
+          console.error('Error checking quiz status:', error);
+        }
+      }
+    };
+
+    checkQuizPlayed();
+  }, [userId, quizID]);
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prevTime) => {
@@ -91,16 +115,21 @@ function A_MCQPage(props) {
         const userRef = doc(db, 'et4s_main', userId);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
+          const userData = userDoc.data();
+
           const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
           const xp = parseInt(userDoc.data().xp, 10);
           const quizScores = userDoc.data().Quizscore || [];
+          const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
+
           const XP = (score * 100) - (powerUpCount * 100);
           quizScores.push(score); // Add the new score to the array
-
+          hasPlayedQuizzes[quizID] = true;
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + score).toString(),
             Quizscore: quizScores, // Update the array with the new score
-            xp: xp + XP
+            xp: xp + XP,
+            hasPlayedQuizzes: hasPlayedQuizzes,
           });
         }
       }
@@ -171,6 +200,67 @@ function A_MCQPage(props) {
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
+  if (quizPlayed) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        textAlign: 'center',
+        background: `url('https://images.pexels.com/photos/2303101/pexels-photo-2303101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center`,
+        backgroundSize: 'cover',
+        color: '#fff',
+        fontFamily: `'Space Mono', monospace`,
+        padding: '20px'
+      }}>
+        <div>
+          <h2 style={{
+            fontSize: '3rem',
+            marginBottom: '20px',
+            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)'
+          }}>
+            You've Launched This Quiz Before!
+          </h2>
+          <p style={{
+            fontSize: '1.5rem',
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: '1.6',
+            textShadow: '1px 1px 5px rgba(0, 0, 0, 0.7)'
+          }}>
+            🚀 You've already completed this mission. Try exploring other quizzes to continue your space adventure!
+          </p>
+          <button
+            onClick={() => navigate(location.state?.from || '/')}
+            style={{
+              marginTop: '30px',
+              fontSize: '1.2rem',
+              textDecoration: 'none',
+              color: '#1e90ff',
+              border: '2px solid #1e90ff',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              transition: 'background-color 0.3s, color 0.3s',
+              display: 'inline-block',
+              backgroundColor: 'transparent',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = '#1e90ff';
+              e.target.style.color = '#fff';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.color = '#1e90ff';
+            }}
+          >
+            Back to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mainContent">

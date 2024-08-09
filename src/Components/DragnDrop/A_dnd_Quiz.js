@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import Question from './dnd_Questions.js';
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
@@ -22,14 +23,38 @@ const questions = [
 ];
 
 let score = 0;
-
+const quizID = 1;
 const A_DndPage = (props) => {
   const { userId } = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(300); // Set initial time (e.g., 300 seconds for 5 minutes)
+  const [quizPlayed, setQuizPlayed] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation(); // Use useLocation to get the current location
 
 
   useEffect(() => {
+    const checkQuizPlayed = async () => {
+      if (userId) {
+        try {
+          const userRef = doc(db, 'et4s_main', userId);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            const playedQuizzes = userDoc.data().hasPlayedQuizzes || {};
+            setQuizPlayed(playedQuizzes[quizID] || false); // Check if the specific quiz is played
+          }
+        } catch (error) {
+          console.error('Error checking quiz status:', error);
+        }
+      }
+    };
+
+    checkQuizPlayed();
+  }, [userId, quizID]);
+
+  useEffect(() => {
+    if (quizPlayed) return; // Stop timer if quiz is already played
+
     if (timeLeft > 0) {
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
@@ -38,7 +63,7 @@ const A_DndPage = (props) => {
     } else {
       endQuizRoute(score);
     }
-  }, [timeLeft]);
+  }, [timeLeft, quizPlayed]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -47,35 +72,35 @@ const A_DndPage = (props) => {
   };
 
   const handleAnswerSubmission = (isCorrect) => {
-    console.log("score_before :", score);
     if (isCorrect) score++;
-    console.log("score_after :", score);
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
       setCurrentQuestionIndex(nextIndex);
     } else {
       endQuizRoute(score);
-      document.getElementById("submit").disabled = true;
     }
   };
 
   const endQuizRoute = async (finalScore) => {
-    console.log("score=" + finalScore);
     try {
       if (userId) {
         const userRef = doc(db, 'et4s_main', userId);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
-          const currentTotalScore = parseInt(userDoc.data().totalscore, 10);
-          const xp = parseInt(userDoc.data().xp, 10);
-          const quizScores = userDoc.data().Quizscore || [];
-          const XP = (finalScore * 100);
+          const userData = userDoc.data();
+          const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
+          const xp = parseInt(userData.xp, 10) || 0;
+          const quizScores = userData.Quizscore || [];
+          const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
+
           quizScores.push(finalScore); // Add the new score to the array
+          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true in hasPlayedQuizzes map
 
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + finalScore).toString(),
-            Quizscore: quizScores, // Update the array with the new score
-            xp: xp + XP
+            Quizscore: quizScores,
+            xp: xp + finalScore * 100,
+            hasPlayedQuizzes: hasPlayedQuizzes, // Update the map with the quiz ID
           });
         }
       }
@@ -115,6 +140,68 @@ const A_DndPage = (props) => {
     }
   };
 
+  if (quizPlayed) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        textAlign: 'center',
+        background: `url('https://images.pexels.com/photos/2303101/pexels-photo-2303101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center`,
+        backgroundSize: 'cover',
+        color: '#fff',
+        fontFamily: `'Space Mono', monospace`,
+        padding: '20px'
+      }}>
+        <div>
+          <h2 style={{
+            fontSize: '3rem',
+            marginBottom: '20px',
+            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)'
+          }}>
+            You've Launched This Quiz Before!
+          </h2>
+          <p style={{
+            fontSize: '1.5rem',
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: '1.6',
+            textShadow: '1px 1px 5px rgba(0, 0, 0, 0.7)'
+          }}>
+            🚀 You've already completed this mission. Try exploring other quizzes to continue your space adventure!
+          </p>
+          <button
+            onClick={() => navigate(location.state?.from || '/')}
+            style={{
+              marginTop: '30px',
+              fontSize: '1.2rem',
+              textDecoration: 'none',
+              color: '#1e90ff',
+              border: '2px solid #1e90ff',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              transition: 'background-color 0.3s, color 0.3s',
+              display: 'inline-block',
+              backgroundColor: 'transparent',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = '#1e90ff';
+              e.target.style.color = '#fff';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.color = '#1e90ff';
+            }}
+          >
+            Back to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="quiz">
       <div className="timer">Time Left: {formatTime(timeLeft)}</div>
@@ -124,6 +211,7 @@ const A_DndPage = (props) => {
         onSubmit={handleAnswerSubmission}
         onPowerUp={handlePowerUp}
       />
+      {/* Add similar button here if needed */}
     </div>
   );
 };
