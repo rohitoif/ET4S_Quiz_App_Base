@@ -343,20 +343,21 @@ function A_MatchPage(props) {
         <h1>Match the Columns</h1>
         <div className="power-ups">
           <button
+          color="purple"
             className="power-up-btn"
             onClick={handleAddTime}
             disabled={addTimeUsed}
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-            💣
+            Time ⏰
           </button>
           <button
             className="power-up-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            🤖
+            Hint 💡
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
         </div>

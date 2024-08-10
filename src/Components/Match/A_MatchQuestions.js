@@ -347,14 +347,14 @@ function A_MatchPage(props) {
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-            💣
+          Eliminate ❌
           </button>
           <button
             className="power-up-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            🤖
+            Hint 💡
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
         </div>
@@ -414,4 +414,7 @@ function A_MatchPage(props) {
   );
 }
 
+
+
 export default A_MatchPage;
+
