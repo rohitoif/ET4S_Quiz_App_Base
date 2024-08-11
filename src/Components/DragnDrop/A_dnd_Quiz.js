@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
-import Question from './dnd_Questions.js';
-import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
-import { useUser } from '../../UserContext.js';
+import { DndProvider } from 'react-dnd';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Question from './dnd_Questions';
+import { db, updateDoc, doc, getDoc } from '../../firebase';
+import { useUser } from '../../UserContext';
+import './dnd_Quiz.css';
+import './dnd_styles.css';
 
 let powerUpCount = 0 ;
 let index=0;
@@ -21,7 +25,8 @@ const questions = [
       { type: 'image', src: 'https://images.pexels.com/photos/12498752/pexels-photo-12498752.jpeg?auto=compress&cs=tinysrgb&w=1200', alt: 'jupiter' }
     ],
     answer: 'sun'
-  }
+  },
+  { id: 4, text: 'End the quiz Ranger ___.', options: ['Yes Captain'], answer: 'Yes Captain' },
 ];
 
 let score = 0;

@@ -2,173 +2,182 @@ body {
   margin: 0;
   background-repeat: no-repeat; 
   background-size: cover;
-  color:#ffffff;
+  color: #ffffff1e;
   font-family: "ABeeZee", sans-serif;
   font-weight: 400;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  text-align: center;
+  padding: 40px;
+  background: transparent;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1s ease-in-out;
+  width: 1000px;
+  max-width: 1900px;
+  transition: transform 0.2s;
+}
+
+.app:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
   }
-  
-  .app {
-    text-align: center;
-    padding: 40px;
-    background: transparent; /* Make the app background transparent */
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 1s ease-in-out;
-    width: 1000px;
-    max-width: 1900px;
-    transition: transform 0.2s;
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .app:hover {
-    transform: scale(1.05);
-  }
-  
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .timer {
-    position: top right ;
-    top: 10px;
-    left: 10px;
-    font-size: 1.5rem;
-    background: rgba(255, 255, 255, 0);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
-  .quiz {
-    background: transparent; /* Ensure background is invisible */
-    border: none; /* Remove border */
-    padding: 20px;
-    box-shadow: none; /* Remove shadow */
-    animation: fadeIn 0.5s ease-in-out;
-    width:100% ;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    margin: 0 auto; /* Center horizontally */
-    text-align: left; /* Align text to the left */
-    color: #ffffff; /* Ensure text is visible */
-  }
-  
-  .question {
-    margin-bottom: 20px;
-  }
-  
-  .drop-zone {
-    padding: 10px;
-    margin: 20px 0;
-    border: 2px dashed #ccc;
-    border-radius: 5px;
-    min-height: 50px;
-    line-height: 50px;
-    background: rgba(255, 255, 255, 0.6);
-    transition: background 0.2s;
-  }
-  
-  .drop-zone.hover {
-    background: rgba(255, 255, 255, 0.8);
-  }
-  
-  .table {
-    width: 100%;
-  }
-  
-  .table-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.6);
-  }
-  
-  .table-label {
-    flex: 1;
-  }
-  
-  .table-cell {
-    flex: 2;
-    padding: 10px;
-    border: 2px dashed #ccc;
-    border-radius: 5px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.6);
-    transition: background 0.2s;
-  }
-  
-  .table-cell.hover {
-    background: rgba(255, 255, 255, 0.8);
-  }
-  
-  .options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .option {
-    padding: 10px;
-    margin: 10px;
-    background: transparent; /* Make option background invisible */
-    border: none; /* Remove border */
-    color: #ffffff; /* Ensure option text is visible */
-    cursor: grab;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .option.dragging {
-    opacity: 0.5;
-  }
-  
-  .option:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Update shadow color */
-  }
-  
-  .option-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background: linear-gradient(to right, #8e2de2, #4a00e0); /* Purple to blue gradient */
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-    align-self: center;
-    font-family: 'Orbitron', sans-serif; /* Space-themed font */
-    text-transform: uppercase;
-  }
-  
-  button:hover {
-    background: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  .results {
-    background: rgba(255, 255, 255, 0);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-in-out;
-  } 
-  
+}
+
+.timer {
+  position: top right;
+  top: 10px;
+  left: 10px;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.quiz {
+  background: transparent; /* Transparent background */
+  border: none;
+  padding: 20px;
+  box-shadow: none;
+  animation: fadeIn 0.5s ease-in-out;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin: 0 auto;
+  text-align: left;
+  color: white; /* Ensure text is visible */
+}
+
+.question-container {
+  padding: 16px;
+  margin: 16px;
+  border-radius: 8px;
+  background: transparent; /* Transparent background */
+  opacity: 100%;
+}
+
+.power-ups {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+}
+
+.power-up-button {
+  background: linear-gradient(to right, #8e2de2, #4a00e0);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.hint {
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.question {
+  background: rgba(255, 255, 255, 0.123); /* Transparent background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: top;
+  color: white; /* White font color */
+}
+
+.drop-zone {
+  border: 2px dashed #6200ea;
+  padding: 20px;
+  margin-bottom: 16px;
+  width: 100%;
+  text-align: center;
+}
+
+.drop-zone.hover {
+  background-color: #eee;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.option {
+  background: linear-gradient(to right, #8e2de2, #4a00e0);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.option-image {
+  width: fit-content;
+  max-width: 140px;
+  height: fit-content;
+  max-height: 140px;
+}
+
+.option.dragging {
+  opacity: 0.5;
+}
+
+.table {
+  background: transparent;
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 2px solid #6200ea;
+  border-radius: 8px;
+}
+
+.table-cell {
+  border: 2px dashed #6200ea;
+  padding: 10px;
+  width: 50%;
+  text-align: center;
+}
+
+.table-cell.hover {
+  background-color: #eee;
+}
+
+.results {
+  background: rgba(255, 255, 255, 0);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.documentation-container {
+  flex: 1;
+  padding: 10px;
+  background: transparent; /* Transparent background */
+  border: 2px solid #8e2de2; /* Purple border */
+  border-radius: 8px;
+  color: white; /* White font color */
+}

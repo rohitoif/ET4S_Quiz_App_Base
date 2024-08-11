@@ -3,7 +3,7 @@ import React from 'react';
 
 const MissionPlanetHopper = (props) => {
   function handleQuizPage(){
-    props.setQuizPage(2);
+    props.setQuizPage(1);
     //0 for MCQ
     //1 for DragNDrop
     //2 for Matching
