@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
-import { TouchBackend } from 'react-dnd-touch-backend';
+// import { TouchBackend } from 'react-dnd-touch-backend';
 import Question from './dnd_Questions';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { db, updateDoc, doc, getDoc } from '../../firebase';

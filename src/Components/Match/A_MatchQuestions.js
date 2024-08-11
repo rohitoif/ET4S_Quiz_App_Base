@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "./MatchQuestions.css";
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
-
+import DocumentationModal from './DocumentationModal'
 const questions = [
   { id: 1, question: "BLACK HOLE", answerId: 1 },
   { id: 2, question: "COMET", answerId: 2 },
@@ -36,7 +36,7 @@ function A_MatchPage(props) {
   const [isHoveringQuestionMark, setIsHoveringQuestionMark] = useState(false);
   const [isHoveringPlusSign, setIsHoveringPlusSign] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(false);
-  const [quizPlayed, setQuizPlayed] = useState(false); // New state for checking if quiz is played
+  const [showDoc, setShowDoc] = useState(false);  const [quizPlayed, setQuizPlayed] = useState(false); // New state for checking if quiz is played
   const canvasRef = useRef(null);
   const navigate = useNavigate(); // Use navigate for navigation
   const { userId } = useUser();
@@ -266,6 +266,7 @@ function A_MatchPage(props) {
     setIsHoveringPlusSign(false);
     setPopupMessage("");
   };
+  const toggleDoc = () => setShowDoc(!showDoc);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -347,7 +348,7 @@ function A_MatchPage(props) {
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-          Eliminate ❌
+           Time ⏰
           </button>
           <button
             className="power-up-btn"
@@ -357,6 +358,11 @@ function A_MatchPage(props) {
             Hint 💡
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
+          <button className="doc-button" onClick={toggleDoc}>
+          Documentation
+          </button>
+          <DocumentationModal show={showDoc} onClose={toggleDoc} />
+
         </div>
         <div className="score">
           <div>Points: {correctCount}</div>
