@@ -32,7 +32,7 @@ function A_MatchPage(props) {
   const [markedAnswers, setMarkedAnswers] = useState({});
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(300);
   const [addTimeUsed, setAddTimeUsed] = useState(false);
   const [giveAnswerUsed, setGiveAnswerUsed] = useState(false);
   const [isHoveringQuestionMark, setIsHoveringQuestionMark] = useState(false);
