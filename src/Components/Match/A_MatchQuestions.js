@@ -36,7 +36,8 @@ function A_MatchPage(props) {
   const [isHoveringQuestionMark, setIsHoveringQuestionMark] = useState(false);
   const [isHoveringPlusSign, setIsHoveringPlusSign] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(false);
-  const [showDoc, setShowDoc] = useState(false);  const [quizPlayed, setQuizPlayed] = useState(false); // New state for checking if quiz is played
+  const [showDoc, setShowDoc] = useState(true);
+  const [quizPlayed, setQuizPlayed] = useState(false); // New state for checking if quiz is played
   const canvasRef = useRef(null);
   const navigate = useNavigate(); // Use navigate for navigation
   const { userId } = useUser();

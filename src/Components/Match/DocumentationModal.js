@@ -1,18 +1,26 @@
-const DocumentationModal = ({ show, onClose }) => {
-    if (!show) return null;
-  
-    return (
-      <div className="modal-overlay">
-        <div className="modal-content">
-          <p>This is the documentation for the Match the Columns game.</p>
-          <ul>
-            <li>Match the questions on the left with the correct answers on the right.</li>
-            <li>You have a limited time to complete the game.</li>
-            <li>You can use power-ups to get hints or extra time.</li>
-          </ul>
-          <button className="close-btn" onClick={onClose}>Close</button>
-        </div>
+// DocumentationModal.js
+import React from 'react';
+
+function DocumentationModal({ show, onClose }) {
+  if (!show) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>HOW TO PLAY</h2> <br /> 
+        <br />
+        <p>
+          Welcome to Match the Following, a stop at your ultimate space adventure! 🌌 Your mission is to match each question with the correct answer.<br />
+          <br />Simply click on a question from the left column and then choose the matching answer from the right column. But that’s not all— our quiz is packed with interstellar power-ups to help you along your journey: < br />
+          <br/> ⏰ Time Extender: If you're running low on time and need a bit more to figure out your answers, just click the clock icon. This will give you extra seconds on the timer, so you can take your time and make sure you choose the right answers. <br/ >
+          <br/>💡 Hint Generator: Feeling lost? Tap the lightbulb for a helpful hint that will guide you toward the right answer. It's like getting a little nudge in the right direction!
+        </p>
+        <button className="close-btn" onClick={onClose}>
+          Close
+        </button>
       </div>
-    );
-  };
-  export default DocumentationModal;
+    </div>
+  );
+}
+
+export default DocumentationModal;
