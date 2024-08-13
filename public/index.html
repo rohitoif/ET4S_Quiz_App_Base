@@ -1,57 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>React App</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    #root {
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+    .music-button {
+      position: fixed;
+      bottom: 10px;
+      left: 20px;/* Adjusted to move the icon more towards the left */
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 35px;
+      color: white; /* Changed color to white */
+    }
+    .music-button:hover .hover-text {
+      display: block;
+    }
+    .hover-text {
+      display: none;
+      position: absolute;
+      top: 20%;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      white-space: nowrap;
+      transform: translateY(-50%);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="myAudio" src="%PUBLIC_URL%/The Whole Other - 8-Bit Dreamscape  NO COPYRIGHT 8-bit Music.mp3" autoplay loop muted></audio>
+  
+  <!-- Music button -->
+  <button class="music-button" id="musicButton">
+    🔊
+    <span class="hover-text">Enhance your experience with music</span>
+  </button>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow-x: hidden; /* Prevent horizontal scroll */
-      }
-      #root {
-        min-height: 100vh;
-        overflow-y: auto; /* Ensure vertical scroll if content overflows */
-      }
-    </style>
-  </head>
-  <body>
-    <audio src="./The Whole Other - 8-Bit Dreamscape  NO COPYRIGHT 8-bit Music.mp3" autoplay loop></audio>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('myAudio');
+      const musicButton = document.getElementById('musicButton');
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      musicButton.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        if (!audio.muted) {
+          audio.play().catch(error => {
+            console.log('Play failed:', error);
+          });
+        }
+      });
+    });
+  </script>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+</body>
 </html>
