@@ -26,6 +26,18 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+      }
+      #root {
+        min-height: 100vh;
+        overflow-y: auto; /* Ensure vertical scroll if content overflows */
+      }
+    </style>
   </head>
   <body>
     <audio src="./The Whole Other - 8-Bit Dreamscape  NO COPYRIGHT 8-bit Music.mp3" autoplay loop></audio>

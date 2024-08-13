@@ -5,8 +5,8 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
-  overflow:scroll;
   opacity: 0.9;
+  overflow-y: scroll; /* Ensure the overflow is visible */
 }
 
 .main-container {
@@ -15,22 +15,20 @@ body {
   min-height: 100vh;
   width: 100%;
   margin: 0;
-  padding: 0;
-  
+  padding: 0;/* Change to auto to allow the container to expand and scroll if needed */
 }
 
 .content {
   flex: 1;
   padding: 2rem;
   background-image: url("./Images/ilovespace (3).jpg");
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   background-size: cover;
-  width:100%;
+  width: 100%;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100vh; /* Allow the content to grow beyond viewport height */ /* Ensure the overflow is visible */
 }
-
 .container {
   background: #f1f5f8;
   border-radius: 20px;
@@ -145,7 +143,6 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   transition-duration: .3s;
 }
 /* instagram*/
@@ -328,14 +325,25 @@ header h1 {
 }
 
 footer {
+  position: relative;
   bottom: 0;
   width: 100%;
-  height: 2.5rem;
+  background: #090701;
+  color: #ccc;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+  display: flex; /* Added flex display */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
 }
 
 footer p {
-  color: #ccc;
+  margin: 0;
+  font-size: 1rem;
 }
+
 .note {
   background: #fff;
   border-radius: 7px;
