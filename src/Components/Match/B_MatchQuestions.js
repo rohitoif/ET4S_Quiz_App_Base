@@ -342,7 +342,13 @@ function A_MatchPage(props) {
   return (
     <div className="match-questions">
       <div className="header">
-        <h1>Match the Columns</h1>
+      <div className="text-left float-left">
+    <span>📖Score: {correctCount}</span>
+  </div>
+  <div className="">
+    <span>⌛Time Left: {formatTime(timeLeft)}</span>
+  </div>
+
         <div className="power-ups">
           <button
             className="power-up-btn"
@@ -366,10 +372,6 @@ function A_MatchPage(props) {
           </button>
           <DocumentationModal show={showDoc} onClose={toggleDoc} />
 
-        </div>
-        <div className="score">
-          <div>Points: {correctCount}</div>
-          <div>Time Left: {formatTime(timeLeft)}</div>
         </div>
       </div>
       <div className="columns-container">
