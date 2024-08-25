@@ -1,10 +1,10 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "./MatchQuestions.css";
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
-
-
+import DocumentationModal from './DocumentationModal'
 const questions = [
   { id: 1, question: "SATURN", answerId: 1 },
   { id: 2, question: "HALLEYS", answerId: 2 },
@@ -21,22 +21,24 @@ const answers = [
   { id: 5, answer: "Black Hole Radiation" },
 ];
 
-let correctCount = 0;
-const quizID = 6; // Set constant quiz ID
-let powerUpCount = 0;
 
+let correctCount = 0;
+const quizID = 2; // Set constant quiz ID
+
+let powerUpCount = 0;
 function A_MatchPage(props) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [matches, setMatches] = useState([]);
   const [markedAnswers, setMarkedAnswers] = useState({});
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(300);
   const [addTimeUsed, setAddTimeUsed] = useState(false);
   const [giveAnswerUsed, setGiveAnswerUsed] = useState(false);
   const [isHoveringQuestionMark, setIsHoveringQuestionMark] = useState(false);
   const [isHoveringPlusSign, setIsHoveringPlusSign] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [showDoc, setShowDoc] = useState(true);
   const [quizPlayed, setQuizPlayed] = useState(false); // New state for checking if quiz is played
   const canvasRef = useRef(null);
   const navigate = useNavigate(); // Use navigate for navigation
@@ -125,52 +127,51 @@ function A_MatchPage(props) {
     correctCount = newCorrectCount;
     setSubmitDisabled(true); // Disable submit button when matches are checked
     endQuizRoute();
-    };
+  };
 
-    const endQuizRoute = async (finalScore) => {
-        console.log("score=" + correctCount);
-        try {
-          if (userId) {
-            const userRef = doc(db, 'et4s_main', userId);
-            const userDoc = await getDoc(userRef);
-            if (userDoc.exists()) {
-              const userData = userDoc.data();
-              const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
-              const xp = parseInt(userData.xp, 10) || 0;
-              const quizScores = userData.Quizscore || [];
-              const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
-              const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
-      
-              const totalCorrect = currentTotalScore + correctCount;
-              const XP = (correctCount * 100) - (powerUpCount * 100);
-              const newTotalQuestions = totalQuestions + questions.length;
-              const newAccuracy = totalQuestions ? (totalCorrect / newTotalQuestions) * 100 : 0; // Avoid division by zero
-      
-              quizScores.push(correctCount); // Add the new score to the array
-              hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
-      
-              await updateDoc(userRef, {
-                totalscore: (currentTotalScore + correctCount).toString(),
-                Quizscore: quizScores,
-                xp: xp + XP,
-                accuracy: newAccuracy, // Update the accuracy in Firestore
-                totalQuestions: newTotalQuestions, // Update total questions in Firestore
-                hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
-              });
-            }
-          }
-        } catch (error) {
-          console.error('Error updating document:', error);
-        }
-        alert(`Quiz Ended! Your Score: ${correctCount}`);
-        resetQuiz();
-      };
-      const resetQuiz = () => {
-        correctCount = 0;
-        props.handleEnding();
-      };
- 
+  const endQuizRoute = async (finalScore) => {
+    console.log("score=" + correctCount);
+    try { 
+      if (userId) {
+        const userRef = doc(db, 'et4s_main', userId);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
+          const xp = parseInt(userData.xp, 10) || 0;
+          const quizScores = userData.Quizscore || [];
+          const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
+          const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
   
+          const totalCorrect = currentTotalScore + correctCount;
+          const XP = (correctCount * 100) - (powerUpCount * 100);
+          const newTotalQuestions = totalQuestions + questions.length;
+          const newAccuracy = totalQuestions ? (totalCorrect / newTotalQuestions) * 100 : 0; // Avoid division by zero
+  
+          quizScores.push(correctCount); // Add the new score to the array
+          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
+  
+          await updateDoc(userRef, {
+            totalscore: (currentTotalScore + correctCount).toString(),
+            Quizscore: quizScores,
+            xp: xp + XP,
+            accuracy: newAccuracy, // Update the accuracy in Firestore
+            totalQuestions: newTotalQuestions, // Update total questions in Firestore
+            hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+    alert(`Quiz Ended! Your Score: ${correctCount}`);
+    resetQuiz();
+  };
+
+  const resetQuiz = () => {
+    correctCount = 0;
+    props.handleEnding();
+  };
 
   const drawLines = () => {
     const canvas = canvasRef.current;
@@ -217,7 +218,7 @@ function A_MatchPage(props) {
 
   const handleGiveAnswer = () => {
     if (!giveAnswerUsed) {
-    powerUpCount++;
+      powerUpCount++;
       const incorrectMatches = matches.filter(
         (match) =>
           questions.find((q) => q.id === match.questionId).answerId !==
@@ -268,6 +269,7 @@ function A_MatchPage(props) {
     setIsHoveringPlusSign(false);
     setPopupMessage("");
   };
+  const toggleDoc = () => setShowDoc(!showDoc);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -349,16 +351,21 @@ function A_MatchPage(props) {
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-            💣
+           Time ⏰
           </button>
           <button
             className="power-up-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            🤖
+            Hint 💡
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
+          <button className="doc-button" onClick={toggleDoc}>
+          Documentation
+          </button>
+          <DocumentationModal show={showDoc} onClose={toggleDoc} />
+
         </div>
         <div className="score">
           <div>Points: {correctCount}</div>
@@ -416,4 +423,7 @@ function A_MatchPage(props) {
   );
 }
 
+
+
 export default A_MatchPage;
+

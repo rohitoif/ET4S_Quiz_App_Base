@@ -1,5 +1,5 @@
 import React from "react";
-
+import './MCQ.css';
 function Pic(props) {
     return (
     <div>
@@ -7,16 +7,16 @@ function Pic(props) {
             src={props.images1}
             alt="hi"
             className="mcqpics"
-            wrap="left"
             onerror="this.style.display='none'"
+            id="img1"
          />
 
         <img
             src={props.images2}
             alt="hi"
             className="mcqpics"
-            wrap="right"
             onerror="this.style.display='none'"
+            id='img2'
          />
     </div>
     );

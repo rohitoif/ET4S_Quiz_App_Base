@@ -5,8 +5,8 @@ function Header() {
   const { username, rank } = useUser();
 
   return (
-    <header id="atthetop" className="flex justify-between items-center p-4 bg-gray-100">
-      <div className="flex-1 text-center" style={{ marginLeft: '300px' }}>
+<header id="atthetop" className="flex justify-between items-center p-4 bg-purple-800">      
+  <div className="flex-1 text-center" style={{ marginLeft: '300px' }}>
         <h1 className="text-3xl font-bold text-black">EduTech4Space ☀️🌕🚀🛰️🤖</h1>
       </div>
       <div className="flex flex-col items-end">

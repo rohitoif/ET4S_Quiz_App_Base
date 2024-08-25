@@ -272,8 +272,9 @@ function A_MCQPage(props) {
   }
 
   return (
-    <div className="mainContent">
-      <div className="mainQuestion" style={{ float: 'left' }}>
+    <div id="mainContent">
+      <div className="Question">
+      <div className="mainQuestion">
         <h3>{Math.min(mcq.length, index + 1)}/{mcq.length}</h3>
         <p>Score: {score}</p>
         <div style={{ position: 'relative' }}>
@@ -344,10 +345,16 @@ function A_MCQPage(props) {
         <br />
         {showHint && <Hint text={hint} />}
         <br />
+        </div>
         <Pic images1={images1} images2={images2} />
         <Submit onClick={checkAnswer} disabled={disableSubmitButton} />
       </div>
-      <div style={{ float: 'right' }}>{document && <Guide />}</div>
+
+
+
+
+
+      
       {showHackingEffect && (
         <div style={{
           position: 'fixed',

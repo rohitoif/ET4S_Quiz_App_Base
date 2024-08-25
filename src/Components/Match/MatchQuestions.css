@@ -8,7 +8,6 @@
 body, html {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   font-family: 'Space Grotesk', sans-serif;
 }
 
@@ -42,28 +41,17 @@ h1 {
   color: #ffffff;
 }
 
+
+
+
 .power-ups {
   display: flex;
   gap: 10px;
+  justify-content: center; /* Centering the buttons */
+  margin-bottom: 20px; /* Adding space between the buttons and other elements */
 }
 
-.power-up-btn {
-  position: relative;
-  background: none;
-  border: none;
-  color: #DFC5fE;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
 
-.power-up-btn:disabled {
-  color: #555;
-  cursor: not-allowed;
-}
-
-.power-up-btn:hover:not(:disabled) {
-  transform: scale(1.2);
-}
 
 .score {
   font-size: 16px;
@@ -235,5 +223,149 @@ h1 {
   .check-btn {
     font-size: 1.2em;
     padding: 10px;
+  }
+}
+
+
+/* Common button styling for Eliminate, Hint, and Documentation */
+.power-up-btn,
+.doc-button {
+  background-color: #4A00E0; /* Dark Purple */
+  background-image: linear-gradient(315deg, #4A00E0 0%, #8E2DE2 74%); /* Gradient */
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px; /* Adjust padding for uniform size */
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  min-width: 130px; /* Ensure uniform width */
+  text-align: center;
+  margin: 0 5px; /* Adjust spacing */
+}
+
+/* Hover effect for all buttons */
+.power-up-btn:hover,
+.doc-button:hover {
+  background-color: #8E2DE2; /* New color on hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+.doc-overlay {
+  display: block; /* Ensure the overlay is visible */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;; /* Ensure proper transparency */
+  background: rgba(74, 0, 224, 0.85); /* Transparent purple background */
+  z-index: 999; /* Ensure it is below the modal but above other content */
+}
+
+/* Documentation modal styling */
+.doc-modal {
+  display: block; /* Ensure the modal is visible */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(315deg, rgba(74, 0, 224, 0.7) 0%, rgba(142, 45, 226, 0.7) 74%); /* Translucent gradient */
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  z-index: 1000; /* Ensure it is above the overlay */
+  width: 90%; /* Default width for responsiveness */
+  max-width: 500px; /* Max width to prevent excessive enlargement */
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+/* Text color inside the documentation modal */
+.doc-modal h2,
+.doc-modal p {
+  color: white; /* Ensure text is white */
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(34, 0, 85, 0.85), rgba(0, 0, 0, 0.85)); /* Dark purple to black gradient */
+  padding: 20px;
+  color: white;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* Ensure vertical layout */
+  justify-content: space-between; /* Space between heading, content, and button */
+  align-items: center; /* Center content horizontally */
+}
+
+.modal-content h2 {
+  margin-top: 0; /* Remove default margin */
+  margin-bottom: 20px; /* Add space below heading */
+  text-align: center;
+  width: 100%; /* Ensure the heading takes full width */
+}
+
+.modal-content p {
+  flex: 1; /* Allow the content to take up remaining space */
+  text-align: center;
+  overflow-y: auto; /* Enable scrolling if content is too large */
+  width: 100%;
+}
+
+.modal-content .close-button {
+  margin-bottom: 20px; /* Add space above the button */
+  align-self: center; /* Center the button horizontally */
+}
+
+@media (max-width: 768px) {
+  .doc-modal {
+    width: 95%; /* Increase width on smaller screens */
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+
+  .doc-modal h2 {
+    font-size: 1.5em; /* Adjust font size for smaller screens */
+  }
+
+  .doc-modal p {
+    font-size: 1em; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .doc-modal {
+    width: 100%; /* Full width on very small screens */
+    padding: 10px; /* Further reduce padding */
+  }
+
+  .doc-modal h2 {
+    font-size: 1.2em; /* Further adjust font size */
+  }
+
+  .doc-modal p {
+    font-size: 0.9em; /* Further adjust font size */
   }
 }

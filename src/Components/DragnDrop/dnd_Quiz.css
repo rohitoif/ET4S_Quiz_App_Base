@@ -1,0 +1,27 @@
+.quiz-container {
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    
+  }
+  
+  .quiz {
+    flex: 3;
+    margin-right: 20px;
+    margin-bottom: auto;
+  }
+  
+  .documentation-container {
+    position:fixed;
+    top : 10%;
+    left:50%;
+    background-color: rgba(128, 0, 128, 0.334);
+    align-self: left;
+    width : 35%;
+    height:80%;
+    border : 3px solid rgba(255, 68, 0, 0.384);
+    padding : 2px;
+    padding-left:10px;
+  }

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
-import Question from './dnd_Questions.js';
-import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
-import { useUser } from '../../UserContext.js';
+import { DndProvider } from 'react-dnd';
+// import { TouchBackend } from 'react-dnd-touch-backend';
+import Question from './dnd_Questions';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { db, updateDoc, doc, getDoc } from '../../firebase';
+import { useUser } from '../../UserContext';
+import './dnd_Quiz.css';
+import './dnd_styles.css';
 
 let powerUpCount = 0 ;
 let index=0;

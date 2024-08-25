@@ -273,38 +273,40 @@ function B_MCQPage(props) {
   }
 
   return (
-    <div className="mainContent">
-      <div className="mainQuestion" style={{ float: 'left' }}>
-        <h3>{Math.min(mcq.length, index + 1)}/{mcq.length}</h3>
-        <p>Score: {score}</p>
-        <div style={{ position: 'relative' }}>
-          <p>Time Left: {formatTime(time)}</p>
-          <AnimatePresence>
-            {showTimerMessage && (
-              <motion.div
-                initial={{ opacity: 0, y: 0 }}
-                animate={{ opacity: 1, y: -20 }}
-                exit={{ opacity: 0 }}
-                style={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  color: 'green',
-                  fontWeight: 'bold'
-                }}
-              >
-                +15 seconds!
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+    <div id="mainContent">
+      <div className="Question">
+      <div className="mainQuestion">
+  <div>
+    <span >{Math.min(mcq.length, index + 1)}/{mcq.length}</span>
+  </div>
+  <div className="justify-between items-center mb-4 text-white">
+
+  <div className="text-left float-left">
+    <span>📖Score: {score}</span>
+  </div>
+  <div className="text-center">
+    <span>⌛Time Left: {formatTime(time)}</span>
+    <AnimatePresence>
+      {showTimerMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: -20 }}
+          exit={{ opacity: 0 }}
+          className="absolute top-full right-0 text-green-500 font-bold"
+        >
+          +15 seconds!
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+</div>
         <motion.button
           onClick={handlePowerUp}
           className="powerups"
           whileHover={{ scale: powerups.bomb ? 1.1 : 1 }}
           whileTap={{ scale: powerups.bomb ? 0.9 : 1 }}
           style={{ opacity: powerups.bomb ? 1 : 0.5, cursor: powerups.bomb ? 'pointer' : 'not-allowed' }}
+          id="powerups"
         >
           💣
         </motion.button>
@@ -314,6 +316,7 @@ function B_MCQPage(props) {
           whileHover={{ scale: powerups.asteroid ? 1.1 : 1 }}
           whileTap={{ scale: powerups.asteroid ? 0.9 : 1 }}
           style={{ opacity: powerups.asteroid ? 1 : 0.5, cursor: powerups.asteroid ? 'pointer' : 'not-allowed' }}
+          id="powerups"
         >
           🌠
         </motion.button>
@@ -323,6 +326,7 @@ function B_MCQPage(props) {
           whileHover={{ scale: powerups.hacker ? 1.1 : 1 }}
           whileTap={{ scale: powerups.hacker ? 0.9 : 1 }}
           style={{ opacity: powerups.hacker ? 1 : 0.5, cursor: powerups.hacker ? 'pointer' : 'not-allowed' }}
+          id="powerups"
         >
           🤖
         </motion.button>
@@ -331,6 +335,7 @@ function B_MCQPage(props) {
           onClick={toggleDocumentation}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          id="powerups"
         >
           ❓
         </motion.button>
@@ -345,10 +350,17 @@ function B_MCQPage(props) {
         <br />
         {showHint && <Hint text={hint} />}
         <br />
+        </div>
         <Pic images1={images1} images2={images2} />
         <Submit onClick={checkAnswer} disabled={disableSubmitButton} />
       </div>
-      <div style={{ float: 'right' }}>{document && <Guide />}</div>
+      
+
+
+
+
+
+
       {showHackingEffect && (
         <div style={{
           position: 'fixed',

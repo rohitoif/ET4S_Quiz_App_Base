@@ -30,6 +30,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import MissionPlanetHopper2 from './Components/B_Quiz.jsx';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Citations from './Components/Citations.jsx';
+import Header2 from './Components/Header2';
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -135,12 +136,12 @@ export default function MyPage() {
             </React.StrictMode>
           )}
         </div>
-        <Footer />
       </div>
     );
   } else if (quizMode === 1) {
     return (
       <div>
+        <Header2 />
         {quizPage === 0 && (
           <React.StrictMode>
             <A_MCQPage handleEnding={handleEnding} />

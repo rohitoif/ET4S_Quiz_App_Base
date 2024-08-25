@@ -1,7 +1,7 @@
 body{
     margin: 0;
     background-image: url("./MCQ_bgimg/neutron\ star.gif");
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
     background-size: cover;
     color:#ffffff;
     font-family: "ABeeZee", sans-serif;
@@ -9,6 +9,7 @@ body{
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 30px;
   }
   
   body::before{
@@ -25,6 +26,7 @@ body{
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
+    color: #ffffff;
   }
   
   .submit{
@@ -32,7 +34,7 @@ body{
     background-color: #4caf4f00;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: rgb(255, 166, 0);
-    border: none;
+    border-radius: 50% ;
     cursor: pointer;
     font-size: 18px;
     margin: 10px;
@@ -58,12 +60,12 @@ body{
   
   .mainContent{
     z-index: 100;
-    
   }
   
   .mainQuestion{
-    width:40%;
+    width:80%;
     padding-left: 20px;
+    color: #ffffff;
   }
   
   .documentation{
@@ -77,6 +79,7 @@ body{
     border : 3px solid rgba(255, 68, 0, 0.384);
     padding : 2px;
     padding-left:10px;
+    color: #ffffff;
   }
   
   .mcqpics{
@@ -90,3 +93,45 @@ body{
     transform: scale(1.01);
     opacity: 0.7;
   }
+
+  .Question{
+    text-align: justify;
+    padding: 30px;
+    padding-top: 0px;
+    width : 75%;
+    margin-top: 10px;
+  }
+
+  #img1{
+    position: fixed;
+    top: 25%;
+    left:65%;
+    width: 250px;
+    height: 200px;
+    margin-bottom: 40px;
+    margin-left:0px;
+  }
+
+  #img2{
+    position: fixed;
+    top: 50%;
+    left:65%;
+    width:250px;
+    height: 200px;
+    margin-top: 40px;
+    margin-left:0px;
+
+  }
+
+  #powerups{
+    width: 150px;
+    height: 60px;
+    border: none;
+    background-color: #8a2be2;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-right: 20px;
+  }
+  
