@@ -40,6 +40,69 @@ h1 {
   text-align: center;
   color: #ffffff;
 }
+.match-questions {
+  background-size: cover;
+  min-height: 100vh;
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  padding: 20px;
+  position: relative;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.quiz-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.quiz-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.powerups {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.powerup-btn {
+  background-color: #8a2be2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  width: 150px;
+  height:60px;
+}
+
+.fire-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
 
 
@@ -79,6 +142,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 20px;
 }
 
 .question, .answer {
@@ -89,6 +153,8 @@ h1 {
   transition: background 0.3s, color 0.3s;
   text-align: center;
 }
+
+
 
 .question.selected {
   background: #6F2DA8;
@@ -368,4 +434,16 @@ h1 {
   .doc-modal p {
     font-size: 0.9em; /* Further adjust font size */
   }
+}
+
+#powerups{
+  width: 150px;
+  height: 60px;
+  border: none;
+  background-color: #8a2be2;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-right: 20px;
 }

@@ -340,35 +340,35 @@ function A_MatchPage(props) {
   }
 
   return (
-    <div className="match-questions">
-      <div className="header">
-      <div className="text-left float-left">
-    <span>📖Score: {correctCount}</span>
-  </div>
-  <div className="">
-    <span>⌛Time Left: {formatTime(timeLeft)}</span>
-  </div>
+    <div className="match-questions min-h-screen flex flex-col ">
+      <div className="">
+      <div className="position">
+        <span></span>
+      <div className="position">
+        <span>  ⌛Time Left: {formatTime(timeLeft)}</span>
+    </div>
 
-        <div className="power-ups">
+</div>
+        <div className="power-ups m-5">
           <button
-            className="power-up-btn"
+            className="powerup-btn"
             onClick={handleAddTime}
             disabled={addTimeUsed}
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-           Time ⏰
+           💣
           </button>
           <button
-            className="power-up-btn"
+            className="powerup-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            Hint 💡
+            🤖
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
-          <button className="doc-button" onClick={toggleDoc}>
-          Documentation
+          <button className="powerup-btn" onClick={toggleDoc}>
+           ❓
           </button>
           <DocumentationModal show={showDoc} onClose={toggleDoc} />
 
