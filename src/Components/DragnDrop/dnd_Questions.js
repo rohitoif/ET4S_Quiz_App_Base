@@ -19,7 +19,7 @@ const Question = ({ question, onSubmit, onHack, hackUsed }) => {
   });
   const [options, setOptions] = useState(question?.options || []);
   const [hint, setHint] = useState('');
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(true); // Set to true to open initially
 
   useEffect(() => {
     setSelectedOption('');
@@ -152,20 +152,27 @@ const Question = ({ question, onSubmit, onHack, hackUsed }) => {
           }
         }}>
         <DialogTitle style={{ borderBottom: '1px solid #8e2de2', fontWeight: 'bold' }}>Documentation</DialogTitle>
-        <DialogContent dividers={true} style={{ overflowY: 'scroll', padding: '20px' }}>
-          <p>Your documentation content goes here...</p>
-          <p>...more content...</p>
-          <p>...and even more...</p>
-          <p>...and even more...</p>
-          <p>...and even more...</p>
-          <p>...and even more...</p>
-          <p>...and even more...</p>
-          <p>...and even more...</p>
-          <p>...and even more...</p>
-          '<p>...and even more...</p>
-          <p>...and even more...</p>
-          {/* Add as much content as needed */}
-        </DialogContent>
+          <DialogContent dividers={true} style={{ overflowY: 'scroll', padding: '20px' }}>
+            <h2 style={{ color: '#8e2de2' }}>🎯 Quiz Instructions</h2>
+            
+            <h3 style={{ color: '#8e2de2' }}>📚 How to Drag and Drop</h3>
+            <p>
+              To answer questions, simply drag the correct option from the list and drop it into the designated area. For table-based questions, drag the options to the corresponding cells. This interactive feature helps you engage with the quiz in a dynamic way!
+            </p>
+            
+            <h3 style={{ color: '#8e2de2' }}>⚡️ Power-Ups</h3>
+            <p>
+              <strong>Hack 🛠:</strong> Instantly reveal the correct answer and get a boost to your score!
+            </p>
+            <p>
+              <strong>Hint 💡:</strong> Get a helpful hint to guide you towards the correct answer.
+            </p>
+
+            <h3 style={{ color: '#8e2de2' }}>🔍 Additional Tips</h3>
+            <p>
+              Use power-ups wisely to enhance your quiz experience. Each power-up can turn the tide in your favor, so think strategically about when to use them!
+            </p>
+          </DialogContent>
         <DialogActions>
           <Button onClick={toggleDialog} style={{ color: '#8e2de2' }}>Close</Button>
         </DialogActions>

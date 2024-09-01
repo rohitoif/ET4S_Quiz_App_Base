@@ -12,7 +12,7 @@ import './MCQ.css';
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation
-
+import DocumentationModal from './DocumentationModal.jsx'; 
 let index = 0;
 let score = 0;
 let disableSubmitButton = false;
@@ -30,6 +30,7 @@ function A_MCQPage(props) {
   const [document, setDocument] = useState(true);
   const [showTimerMessage, setShowTimerMessage] = useState(false);
   const [destroyedChoice, setDestroyedChoice] = useState(null);
+  const [showDocumentation, setShowDocumentation] = useState(true);
   const [showHackingEffect, setShowHackingEffect] = useState(false);
   const [powerups, setPowerups] = useState({
     bomb: true,
@@ -201,7 +202,7 @@ function A_MCQPage(props) {
   };
 
   const toggleDocumentation = () => {
-    setDocument((prevDocument) => !prevDocument);
+    setShowDocumentation((prev) => !prev);
   };
 
   const formatTime = (seconds) => {
@@ -273,6 +274,7 @@ function A_MCQPage(props) {
 
   return (
     <div id="mainContent">
+      <DocumentationModal isOpen={showDocumentation} onClose={toggleDocumentation} />
       <div className="Question">
       <div className="mainQuestion">
         <h3>{Math.min(mcq.length, index + 1)}/{mcq.length}</h3>
@@ -327,11 +329,11 @@ function A_MCQPage(props) {
           🤖
         </motion.button>
         <motion.button
-          className="powerups"
-          onClick={toggleDocumentation}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
+            className="powerups"
+            onClick={toggleDocumentation}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
           ❓
         </motion.button>
         <Question question={question} />
@@ -349,8 +351,6 @@ function A_MCQPage(props) {
         <Pic images1={images1} images2={images2} />
         <Submit onClick={checkAnswer} disabled={disableSubmitButton} />
       </div>
-
-
 
 
 
