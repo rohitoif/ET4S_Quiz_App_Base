@@ -61,6 +61,8 @@ const B_DndPage = (props) => {
   const [quizPlayed, setQuizPlayed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation(); // Use useLocation to get the current location
+  const [dialogOpen, setDialogOpen] = useState(true);
+  const [hackUsed , setHackUsed]= useState(false);
 
 
   useEffect(() => {
@@ -142,7 +144,7 @@ const B_DndPage = (props) => {
   
           quizScores.push(finalScore); // Add the new score to the array
           hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
-  
+          index = 0;
           await updateDoc(userRef, {
             totalscore: (currentTotalScore + finalScore).toString(),
             Quizscore: quizScores,
@@ -177,7 +179,7 @@ const B_DndPage = (props) => {
         return option !== correctAnswer;
       }
     });
-
+    
     if (incorrectOptions.length > 0) {
       const remainingOptions = currentOptions.filter(option => {
         if (typeof option === 'object') {
@@ -255,12 +257,19 @@ const B_DndPage = (props) => {
 
   return (
     <div className="quiz">
-      <div className="timer">Time Left: {formatTime(timeLeft)}</div>
+      <h3>{Math.min(questions.length, index + 1)}/{questions.length}</h3>
+        <p>Score: {score}</p>
+        <div style={{ position: 'relative' }}>
+          <p>Time Left: {formatTime(timeLeft)}</p>
+      </div>
       <Question
         key={currentQuestionIndex}
         question={questions[currentQuestionIndex]}
         onSubmit={handleAnswerSubmission}
-        onPowerUp={handlePowerUp}
+        hackUsed={hackUsed}
+        setHackUsed={setHackUsed}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}     
       />
       {/* Add similar button here if needed */}
     </div>

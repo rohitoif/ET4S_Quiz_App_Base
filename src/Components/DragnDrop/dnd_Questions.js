@@ -9,7 +9,9 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import './dnd_styles.css';
 
-const Question = ({ question, onSubmit, onHack, hackUsed }) => {
+
+
+const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , setDialogOpen }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [tableAnswers, setTableAnswers] = useState({
     planet: '',
@@ -19,7 +21,7 @@ const Question = ({ question, onSubmit, onHack, hackUsed }) => {
   });
   const [options, setOptions] = useState(question?.options || []);
   const [hint, setHint] = useState('');
-  const [dialogOpen, setDialogOpen] = useState(true); // Set to true to open initially
+  //const [dialogOpen, setDialogOpen] = useState(false); // Set to true to open initially
 
   useEffect(() => {
     setSelectedOption('');
@@ -80,9 +82,10 @@ const Question = ({ question, onSubmit, onHack, hackUsed }) => {
   };
 
   const handleHack = () => {
-    if (onHack()) {
+    if (!hackUsed) {
       const correctAnswer = question.answer;
       setSelectedOption(correctAnswer);
+      hackUsed = true;
     }
   };
 
@@ -167,6 +170,7 @@ const Question = ({ question, onSubmit, onHack, hackUsed }) => {
             <p>
               <strong>Hint 💡:</strong> Get a helpful hint to guide you towards the correct answer.
             </p>
+            
 
             <h3 style={{ color: '#8e2de2' }}>🔍 Additional Tips</h3>
             <p>

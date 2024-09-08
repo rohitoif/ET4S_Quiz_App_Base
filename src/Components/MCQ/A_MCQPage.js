@@ -301,41 +301,44 @@ function A_MCQPage(props) {
             )}
           </AnimatePresence>
         </div>
-        <motion.button
-          onClick={handlePowerUp}
-          className="powerups"
-          whileHover={{ scale: powerups.bomb ? 1.1 : 1 }}
-          whileTap={{ scale: powerups.bomb ? 0.9 : 1 }}
-          style={{ opacity: powerups.bomb ? 1 : 0.5, cursor: powerups.bomb ? 'pointer' : 'not-allowed' }}
-        >
-          💣
-        </motion.button>
-        <motion.button
-          onClick={handleStrikeOut}
-          className="powerups"
-          whileHover={{ scale: powerups.asteroid ? 1.1 : 1 }}
-          whileTap={{ scale: powerups.asteroid ? 0.9 : 1 }}
-          style={{ opacity: powerups.asteroid ? 1 : 0.5, cursor: powerups.asteroid ? 'pointer' : 'not-allowed' }}
-        >
-          🌠
-        </motion.button>
-        <motion.button
-          onClick={handleSkipQuestion}
-          className="powerups"
-          whileHover={{ scale: powerups.hacker ? 1.1 : 1 }}
-          whileTap={{ scale: powerups.hacker ? 0.9 : 1 }}
-          style={{ opacity: powerups.hacker ? 1 : 0.5, cursor: powerups.hacker ? 'pointer' : 'not-allowed' }}
-        >
-          🤖
-        </motion.button>
-        <motion.button
-            className="powerups"
-            onClick={toggleDocumentation}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-          ❓
-        </motion.button>
+        <div className="powerup-container">
+  <motion.button
+    onClick={handlePowerUp}
+    className="powerups"
+    whileHover={{ scale: powerups.bomb ? 1.1 : 1 }}
+    whileTap={{ scale: powerups.bomb ? 0.9 : 1 }}
+    style={{ opacity: powerups.bomb ? 1 : 0.5, cursor: powerups.bomb ? 'pointer' : 'not-allowed' }}
+  >
+    💣
+  </motion.button>
+  <motion.button
+    onClick={handleStrikeOut}
+    className="powerups"
+    whileHover={{ scale: powerups.asteroid ? 1.1 : 1 }}
+    whileTap={{ scale: powerups.asteroid ? 0.9 : 1 }}
+    style={{ opacity: powerups.asteroid ? 1 : 0.5, cursor: powerups.asteroid ? 'pointer' : 'not-allowed' }}
+  >
+    🌠
+  </motion.button>
+  <motion.button
+    onClick={handleSkipQuestion}
+    className="powerups"
+    whileHover={{ scale: powerups.hacker ? 1.1 : 1 }}
+    whileTap={{ scale: powerups.hacker ? 0.9 : 1 }}
+    style={{ opacity: powerups.hacker ? 1 : 0.5, cursor: powerups.hacker ? 'pointer' : 'not-allowed' }}
+  >
+    🤖
+  </motion.button>
+  <motion.button
+    className="powerups"
+    onClick={toggleDocumentation}
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+  >
+    ❓
+  </motion.button>
+</div>
+
         <Question question={question} />
         <Choices
           choices={choices}

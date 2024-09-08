@@ -124,7 +124,7 @@ body{
   }
 
   #powerups{
-    width: 150px;
+    width: 500px;
     height: 60px;
     border: none;
     background-color: #8a2be2;
@@ -132,6 +132,6 @@ body{
     font-size: 24px;
     cursor: pointer;
     transition: transform 0.3s ease;
-    margin-right: 20px;
+    margin-right: 100px;
   }
   
