@@ -2,7 +2,7 @@ import React from 'react';
 
 const MissionPlanetHopper = ({ setQuizPage }) => {
   const handleQuizPage = () => {
-    setQuizPage(4);
+    setQuizPage(5);
     //4 for MCQ
     //5 for DragNDrop
     //6 for Matching
@@ -28,13 +28,8 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
       </div>
       
       <div className="w-full max-w-4xl bg-purple-800 bg-opacity-80 rounded-lg p-6 relative backdrop-filter backdrop-blur-sm shadow-2xl mb-20">
-        <div className="absolute -top-6 left-0 right-0 text-center">
-          <span className="bg-purple-600 px-6 py-2 rounded-full text-lg font-bold shadow-lg text-white">
-            ALL THE BEST .. RANGER !!
-          </span>
-        </div>
 
-        <h1 className="text-4xl font-bold mb-6 text-center text-yellow-300">Mission Planet Hopper</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center bg-pink-600 rounded-full px-6 py-2">Mission Planet Hopper</h1>
         
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-grow">
@@ -51,10 +46,15 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
             >
               Mission is a GO!! 🚀
             </button>
+            <div className="px-6 py-6">
+            <span className="bg-purple-600 px-6 py-4 rounded-full text-lg font-bold shadow-lg text-white">
+            ALL THE BEST .. RANGER !!
+          </span>
+          </div>
           </div>
 
           <div className="md:w-2/5 flex flex-col">
-            <div className="bg-red-500 rounded-t-lg p-2 text-center font-bold text-xl text-white">
+            <div className="bg-pink-600 rounded-t-lg p-2 text-center font-bold text-xl text-white">
               MISSION STATISTICS
             </div>
             <div className="bg-purple-700 rounded-b-lg p-4 shadow-inner flex-grow overflow-y-auto max-h-60 text-white">

@@ -8,16 +8,17 @@ import { img, img2 } from './MCQ_Pics.js';
 import Guide from './MCQ_Guidebook.js';
 import Pic from './MCQ_Images.js';
 import Hint from './MCQ_Hint.js';
+import DocumentationModal from './DocumentationModal.jsx';
 import './MCQ.css';
 import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firestore functions
 import { useUser } from '../../UserContext.js';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation
-import DocumentationModal from './DocumentationModal.jsx'; 
 let index = 0;
 let score = 0;
 let disableSubmitButton = false;
 let powerUpCount = 0;
-const quizID = 0; 
+const quizID = 4; 
+
 function A_MCQPage(props) {
   const [question, setQuestion] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].question : '');
   const [choices, setChoices] = useState(mcq.length > 0 && index < mcq.length ? mcq[index].choices : []);
@@ -30,18 +31,18 @@ function A_MCQPage(props) {
   const [document, setDocument] = useState(true);
   const [showTimerMessage, setShowTimerMessage] = useState(false);
   const [destroyedChoice, setDestroyedChoice] = useState(null);
-  const [showDocumentation, setShowDocumentation] = useState(true);
   const [showHackingEffect, setShowHackingEffect] = useState(false);
+  const [showDocumentation, setShowDocumentation] = useState(true);
   const [powerups, setPowerups] = useState({
     bomb: true,
     asteroid: true,
     hacker: true,
   });
-  const [quizPlayed, setQuizPlayed] = useState(false); // State to track if quiz has been played
-
   const { userId } = useUser(); // Get userId from context
+  const [quizPlayed, setQuizPlayed] = useState(false); // State to track if quiz has been played
   const navigate = useNavigate();
   const location = useLocation(); // Get the current location
+
   useEffect(() => {
     const checkQuizPlayed = async () => {
       if (userId) {
@@ -60,6 +61,8 @@ function A_MCQPage(props) {
 
     checkQuizPlayed();
   }, [userId, quizID]);
+
+
   
   useEffect(() => {
     const timer = setInterval(() => {
@@ -110,47 +113,46 @@ function A_MCQPage(props) {
     }
   };
 
-
-    const endQuizRoute = async (finalScore) => {
-      console.log("score=" + score);
-      try {
-        if (userId) {
-          const userRef = doc(db, 'et4s_main', userId);
-          const userDoc = await getDoc(userRef);
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
-            const xp = parseInt(userData.xp, 10) || 0;
-            const quizScores = userData.Quizscore || [];
-            const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
-            const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
-    
-            const totalCorrect = currentTotalScore + score;
-            const XP = (score * 100) - (powerUpCount * 100);
-            const newTotalQuestions = totalQuestions + mcq.length;
-            const newAccuracy = totalQuestions ? (totalCorrect / newTotalQuestions) * 100 : 0; // Avoid division by zero
-    
-            quizScores.push(score); // Add the new score to the array
-            hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
-    
-            await updateDoc(userRef, {
-              totalscore: (currentTotalScore + score).toString(),
-              Quizscore: quizScores,
-              xp: xp + XP,
-              accuracy: newAccuracy, // Update the accuracy in Firestore
-              totalQuestions: newTotalQuestions, // Update total questions in Firestore
-              hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
-            });
-          }
-        }
-      } catch (error) {
-        console.error('Error updating document:', error);
-      }
-      alert(`Quiz Ended! Your Score: ${score}`);
-
-      resetQuiz();
-    };
+  const endQuizRoute = async (finalScore) => {
+    console.log("score=" + score);
+    try {
+      if (userId) {
+        const userRef = doc(db, 'et4s_main', userId);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const currentTotalScore = parseInt(userData.totalscore, 10) || 0;
+          const xp = parseInt(userData.xp, 10) || 0;
+          const quizScores = userData.Quizscore || [];
+          const totalQuestions = parseInt(userData.totalQuestions, 10) || 0;
+          const hasPlayedQuizzes = userData.hasPlayedQuizzes || {};
   
+          const totalCorrect = currentTotalScore + score;
+          const XP = (score * 100) - (powerUpCount * 100);
+          const newTotalQuestions = totalQuestions + mcq.length;
+          const newAccuracy = totalQuestions ? (totalCorrect / newTotalQuestions) * 100 : 0; // Avoid division by zero
+  
+          quizScores.push(score); // Add the new score to the array
+          hasPlayedQuizzes[quizID] = true; // Update the specific quiz ID to true
+  
+          await updateDoc(userRef, {
+            totalscore: (currentTotalScore + score).toString(),
+            Quizscore: quizScores,
+            xp: xp + XP,
+            accuracy: newAccuracy, // Update the accuracy in Firestore
+            totalQuestions: newTotalQuestions, // Update total questions in Firestore
+            hasPlayedQuizzes: hasPlayedQuizzes // Update the map with the quiz ID
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+    alert(`Quiz Ended! Your Score: ${score}`);
+
+    resetQuiz();
+  };
+
   const toggleHint = () => {
     setShowHint((prevShowHint) => !prevShowHint);
   };
@@ -202,7 +204,7 @@ function A_MCQPage(props) {
   };
 
   const toggleDocumentation = () => {
-    setShowDocumentation((prev) => !prev);
+    setShowDocumentation((prevDocument) => !prevDocument);
   };
 
   const formatTime = (seconds) => {
@@ -210,20 +212,23 @@ function A_MCQPage(props) {
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
+  
   if (quizPlayed) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        textAlign: 'center',
-        background: `url('https://images.pexels.com/photos/2303101/pexels-photo-2303101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center`,
-        backgroundSize: 'cover',
-        color: '#fff',
-        fontFamily: `'Space Mono', monospace`,
-        padding: '20px'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          textAlign: 'center',
+          background: `url('https://images.pexels.com/photos/2303101/pexels-photo-2303101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center`,
+          backgroundSize: 'cover',
+          color: '#fff',
+          fontFamily: "'Space Mono', monospace",
+          padding: '20px',
+        }}
+      >  
         <div>
           <h2 style={{
             fontSize: '3rem',
@@ -274,40 +279,54 @@ function A_MCQPage(props) {
 
   return (
     <div id="mainContent">
-      <DocumentationModal isOpen={showDocumentation} onClose={toggleDocumentation} />
       <div className="Question">
       <div className="mainQuestion">
-        <h3>{Math.min(mcq.length, index + 1)}/{mcq.length}</h3>
-        <p>Score: {score}</p>
-        <div style={{ position: 'relative' }}>
-          <p>Time Left: {formatTime(time)}</p>
-          <AnimatePresence>
-            {showTimerMessage && (
-              <motion.div
-                initial={{ opacity: 0, y: 0 }}
-                animate={{ opacity: 1, y: -20 }}
-                exit={{ opacity: 0 }}
-                style={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  color: 'green',
-                  fontWeight: 'bold'
-                }}
-              >
-                +15 seconds!
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-        <div className="powerup-container">
+  <div>
+    <span >{Math.min(mcq.length, index + 1)}/{mcq.length}</span>
+  </div>
+  <div className="justify-between items-center mb-4 text-white">
+
+  <div className="text-left float-left">
+    <span>📖Score: {score}</span>
+  </div>
+  <div className="text-center">
+    <span>⌛Time Left: {formatTime(time)}</span>
+    <DocumentationModal isOpen={showDocumentation} onClose={toggleDocumentation} />
+
+    <AnimatePresence>
+      {showTimerMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: -20 }}
+          exit={{ opacity: 0 }}
+          className="absolute top-full right-0 text-green-500 font-bold"
+        >
+          +15 seconds!
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+</div>
+<div style={{
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  width: '80%',
+  padding: '10px'
+}}>
   <motion.button
     onClick={handlePowerUp}
     className="powerups"
     whileHover={{ scale: powerups.bomb ? 1.1 : 1 }}
     whileTap={{ scale: powerups.bomb ? 0.9 : 1 }}
-    style={{ opacity: powerups.bomb ? 1 : 0.5, cursor: powerups.bomb ? 'pointer' : 'not-allowed' }}
+    style={{
+      width: '150px',
+      height: '60px',
+      opacity: powerups.bomb ? 1 : 0.5,
+      cursor: powerups.bomb ? 'pointer' : 'not-allowed',
+      margin: '5px'
+    }}
+    id="powerups"
   >
     💣
   </motion.button>
@@ -316,7 +335,14 @@ function A_MCQPage(props) {
     className="powerups"
     whileHover={{ scale: powerups.asteroid ? 1.1 : 1 }}
     whileTap={{ scale: powerups.asteroid ? 0.9 : 1 }}
-    style={{ opacity: powerups.asteroid ? 1 : 0.5, cursor: powerups.asteroid ? 'pointer' : 'not-allowed' }}
+    style={{
+      width: '150px',
+      height: '60px',
+      opacity: powerups.asteroid ? 1 : 0.5,
+      cursor: powerups.asteroid ? 'pointer' : 'not-allowed',
+      margin: '5px'
+    }}
+    id="powerups"
   >
     🌠
   </motion.button>
@@ -325,7 +351,14 @@ function A_MCQPage(props) {
     className="powerups"
     whileHover={{ scale: powerups.hacker ? 1.1 : 1 }}
     whileTap={{ scale: powerups.hacker ? 0.9 : 1 }}
-    style={{ opacity: powerups.hacker ? 1 : 0.5, cursor: powerups.hacker ? 'pointer' : 'not-allowed' }}
+    style={{
+      width: '150px',
+      height: '60px',
+      opacity: powerups.hacker ? 1 : 0.5,
+      cursor: powerups.hacker ? 'pointer' : 'not-allowed',
+      margin: '5px'
+    }}
+    id="powerups"
   >
     🤖
   </motion.button>
@@ -334,19 +367,24 @@ function A_MCQPage(props) {
     onClick={toggleDocumentation}
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
+    style={{
+      width: '150px',
+      height: '60px',
+      margin: '5px'
+    }}
+    id="powerups"
   >
     ❓
   </motion.button>
 </div>
 
-        <Question question={question} />
-        <Choices
-          choices={choices}
-          onChoiceSelect={handleChoiceSelect}
-          destroyedChoice={destroyedChoice}
-        />
+<Question question={question} />
+<Choices
+  choices={choices}
+  onChoiceSelect={handleChoiceSelect}
+  destroyedChoice={destroyedChoice}
+/>
         <br />
-        <button className="hint" onClick={toggleHint} style={{ color: "purple" }}>HINT</button>
         <br />
         {showHint && <Hint text={hint} />}
         <br />
@@ -354,9 +392,6 @@ function A_MCQPage(props) {
         <Pic images1={images1} images2={images2} />
         <Submit onClick={checkAnswer} disabled={disableSubmitButton} />
       </div>
-
-
-
       
       {showHackingEffect && (
         <div style={{
@@ -374,7 +409,7 @@ function A_MCQPage(props) {
           alignItems: 'center',
           zIndex: 1000
         }}>
-          <div>HACKING IN PROGRESS... Correct Answer is : {mcq[index].correctAnswer}</div>
+          <div>HACKING IN PROGRESS...THE CORRECT ANSWER IS : {mcq[index].correctAnswer}</div>
           <div style={{ marginTop: '20px' }}>+1 POINT</div>
         </div>
       )}
@@ -383,4 +418,3 @@ function A_MCQPage(props) {
 }
 
 export default A_MCQPage;
-

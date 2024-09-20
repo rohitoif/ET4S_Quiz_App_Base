@@ -27,26 +27,10 @@ const questions = [
       id: 3,
       text: 'Which one is a star?',
       options: [
-        {
-          type: 'image',
-          src: 'https://images.pexels.com/photos/20337608/pexels-photo-20337608/free-photo-of-saturn-planet-and-rings.jpeg?auto=compress&cs=tinysrgb&w=1200',
-          alt: 'saturn',
-        },
-        {
-          type: 'image',
-          src: 'https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg?auto=compress&cs=tinysrgb&w=1200',
-          alt: 'earth',
-        },
-        {
-          type: 'image',
-          src: 'https://images.pexels.com/photos/87611/sun-fireball-solar-flare-sunlight-87611.jpeg?auto=compress&cs=tinysrgb&w=1200',
-          alt: 'sun',
-        },
-        {
-          type: 'image',
-          src: 'https://images.pexels.com/photos/12498752/pexels-photo-12498752.jpeg?auto=compress&cs=tinysrgb&w=1200',
-          alt: 'jupiter',
-        },
+          { type: 'image', src: './DND_pics/B_dndimg1a.jpg', alt: 'saturn' },
+          { type: 'image', src: './DND_pics/B_dndimg1b.jpg', alt: 'earth' },
+          { type: 'image', src: './DND_pics/B_dndimg1c.jpg', alt: 'sun' },
+          { type: 'image', src: './DND_pics/B_dndimg1d.jpg', alt: 'jupiter' }
       ],
       answer: 'sun',
     },
@@ -258,9 +242,9 @@ const B_DndPage = (props) => {
   return (
     <div className="quiz">
       <h3>{Math.min(questions.length, index + 1)}/{questions.length}</h3>
-        <p>Score: {score}</p>
+        <p>📖 Score: {score}</p>
         <div style={{ position: 'relative' }}>
-          <p>Time Left: {formatTime(timeLeft)}</p>
+          <p>⌛ Time Left: {formatTime(timeLeft)}</p>
       </div>
       <Question
         key={currentQuestionIndex}

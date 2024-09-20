@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "./MatchQuestions.css";
@@ -19,6 +20,7 @@ const answers = [
   { id: 5, answer: "Small celestial body orbiting the sun" },
   { id: 3, answer: "Star-forming region" },
 ];
+
 
 let correctCount = 0;
 const quizID = 2; // Set constant quiz ID
@@ -338,36 +340,38 @@ function A_MatchPage(props) {
   }
 
   return (
-    <div className="match-questions">
-      <div className="header">
-        <h1>Match the Columns</h1>
-        <div className="power-ups">
+    <div className="match-questions min-h-screen flex flex-col ">
+      <div className="">
+      <div className="position">
+        <span></span>
+      <div className="position">
+        <span>  ⌛Time Left: {formatTime(timeLeft)}</span>
+    </div>
+
+</div>
+        <div className="power-ups m-5">
           <button
-            className="power-up-btn"
+            className="powerup-btn"
             onClick={handleAddTime}
             disabled={addTimeUsed}
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-           Time ⏰
+           💣
           </button>
           <button
-            className="power-up-btn"
+            className="powerup-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            Hint 💡
+            🤖
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
-          <button className="doc-button" onClick={toggleDoc}>
-          Documentation
+          <button className="powerup-btn" onClick={toggleDoc}>
+           ❓
           </button>
           <DocumentationModal show={showDoc} onClose={toggleDoc} />
 
-        </div>
-        <div className="score">
-          <div>Points: {correctCount}</div>
-          <div>Time Left: {formatTime(timeLeft)}</div>
         </div>
       </div>
       <div className="columns-container">

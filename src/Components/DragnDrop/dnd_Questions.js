@@ -21,7 +21,7 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
   });
   const [options, setOptions] = useState(question?.options || []);
   const [hint, setHint] = useState('');
-  //const [dialogOpen, setDialogOpen] = useState(false); // Set to true to open initially
+ // const [dialogOpen, setDialogOpen] = useState(true); // Set to true to open initially
 
   useEffect(() => {
     setSelectedOption('');
@@ -85,7 +85,7 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
     if (!hackUsed) {
       const correctAnswer = question.answer;
       setSelectedOption(correctAnswer);
-      hackUsed = true;
+      setHackUsed(true);
     }
   };
 
@@ -94,7 +94,10 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
   };
 
   const toggleDialog = () => {
+    console.log("b4" + dialogOpen)
     setDialogOpen(!dialogOpen);
+    console.log("click");
+    console.log("after" + dialogOpen);
   };
 
   return (
@@ -137,52 +140,45 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
           <button id="submit" onClick={handleSubmit}>Submit</button>
         </div>
       </Paper>
-
-      {/* Scrollable Dialog Box */}
-      <Dialog open={dialogOpen} onClose={toggleDialog} 
-        PaperProps={{ 
-          style: { 
-            position: 'fixed', 
-            right: 0, 
-            maxHeight: '90vh', 
-            width: '30vw', 
-            backgroundColor: 'rgba(0, 0, 0, 0.6)', 
-            backdropFilter: 'blur(5px)',
-            color: 'white',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            boxShadow: '0px 0px 20px 5px rgba(142, 45, 226, 0.5)', 
-            borderRadius: '10px',
-          }
-        }}>
-        <DialogTitle style={{ borderBottom: '1px solid #8e2de2', fontWeight: 'bold' }}>Documentation</DialogTitle>
-          <DialogContent dividers={true} style={{ overflowY: 'scroll', padding: '20px' }}>
-            <h2 style={{ color: '#8e2de2' }}>🎯 Quiz Instructions</h2>
-            
-            <h3 style={{ color: '#8e2de2' }}>📚 How to Drag and Drop</h3>
+     {
+      dialogOpen && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-purple-700 mb-4">HOW TO PLAY</h2>
+          <div className="space-y-4 text-gray-700">
             <p>
-              To answer questions, simply drag the correct option from the list and drop it into the designated area. For table-based questions, drag the options to the corresponding cells. This interactive feature helps you engage with the quiz in a dynamic way!
-            </p>
-            
-            <h3 style={{ color: '#8e2de2' }}>⚡️ Power-Ups</h3>
-            <p>
-              <strong>Hack 🛠:</strong> Instantly reveal the correct answer and get a boost to your score!
+              Welcome to Match the Following, a stop at your ultimate space adventure! 🌌 Your mission is to match each question with the correct answer.
             </p>
             <p>
-              <strong>Hint 💡:</strong> Get a helpful hint to guide you towards the correct answer.
+              Simply click on a question from the left column and then choose the matching answer from the right column. But that's not all— our quiz is packed with interstellar power-ups to help you along your journey:
             </p>
-            
-
-            <h3 style={{ color: '#8e2de2' }}>🔍 Additional Tips</h3>
             <p>
-              Use power-ups wisely to enhance your quiz experience. Each power-up can turn the tide in your favor, so think strategically about when to use them!
+              <span className="font-semibold">⏰ Time Extender:</span> If you're running low on time and need a bit more to figure out your answers, just click the clock icon. This will give you extra seconds on the timer, so you can take your time and make sure you choose the right answers.
             </p>
-          </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleDialog} style={{ color: '#8e2de2' }}>Close</Button>
-        </DialogActions>
-      </Dialog>
+            <p>
+              <span className="font-semibold">💡 Hint Generator:</span> Feeling lost? Tap the lightbulb for a helpful hint that will guide you toward the right answer. It's like getting a little nudge in the right direction!
+            </p>
+            <p>
+              Click the purple arrow button on the bottom when you are done with the quiz!
+            </p>
+            <p className="font-bold text-purple-700">
+              ALL THE BEST RANGER!
+            </p>
+          </div>
+        </div>
+        <div className="bg-gray-100 px-6 py-4 flex justify-end">
+          <button 
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+            onClick={toggleDialog}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>)}
     </>
   );
-};
+}
 
 export default Question;
