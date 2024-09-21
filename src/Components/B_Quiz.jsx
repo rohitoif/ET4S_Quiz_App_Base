@@ -36,7 +36,7 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
             <div className="bg-indigo-700 rounded-lg p-4 flex items-center mb-4 shadow-md">
               <span className="text-5xl mr-4">🐕</span>
               <div>
-                <h2 className="text-2xl font-semibold text-orange-400">Commander Doggo</h2>
+                <h2 className="text-2xl font-semibold text-orange-400">Commander Dogg11111o</h2>
                 <p className="text-lg text-white">Explore all planets b4 time runs out</p>
               </div>
             </div>
