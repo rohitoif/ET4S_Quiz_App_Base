@@ -33,24 +33,20 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
         
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-grow">
-            <div className="bg-indigo-700 rounded-lg p-4 flex items-center mb-4 shadow-md">
-              <span className="text-5xl mr-4">🐕</span>
+            <div className="bg-pink-600 rounded-lg p-4 flex items-center mb-4 shadow-md">
+              <span className="text-5xl mr-4">🚀</span>
               <div>
-                <h2 className="text-2xl font-semibold text-orange-400">Commander Doggo</h2>
-                <p className="text-lg text-white">Explore all planets b4 time runs out</p>
+               <h2 className="text-2xl font-semibold text-white">The Launch</h2>
+              <p className="text-lg text-white">Learn about spaceships and start your Journey through the Cosmos</p>
               </div>
             </div>
             <button 
               onClick={handleQuizPage} 
               className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
             >
-              Mission is a GO!! 🚀
+              Start Mission!!
             </button>
-            <div className="px-6 py-6">
-            <span className="bg-purple-600 px-6 py-4 rounded-full text-lg font-bold shadow-lg text-white">
-            ALL THE BEST .. RANGER !!
-          </span>
-          </div>
+            
           </div>
 
           <div className="md:w-2/5 flex flex-col">

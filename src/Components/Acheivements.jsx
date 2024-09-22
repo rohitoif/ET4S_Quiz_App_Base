@@ -112,7 +112,7 @@ const CosmicAchievements = () => {
 
   return (
     <div className="min-h-screen text-white flex flex-col items-center p-8">
-      <h1 className="text-4xl font-bold mb-12"> YOUR COSMIC ACHIEVEMENTS 🚀🚀</h1>
+      <h1 className="text-4xl font-bold mb-12">Your Past Missions</h1>
       
       <div className="flex justify-between w-full max-w-3xl mb-12">
         <AchievementCircle title="MARKS" icon={totalscore} color="bg-purple-700" />
@@ -121,8 +121,8 @@ const CosmicAchievements = () => {
       </div>
       
       <div className="bg-purple-800 rounded-lg p-6 w-full max-w-3xl text-center">
-        <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-6 rounded-full text-xl mb-4">
-          YOUR JOURNEY
+        <button className="bg-pink-600 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-full text-xl mb-4">
+          Galaxy Giggles
         </button>
         <p className="text-xl">
           {randomMessage}

@@ -3,7 +3,7 @@ import React from 'react';
 export default function Citations() {
     return (
         <div className="bg-gradient-to-r from-indigo-900 to-purple-900 text-white p-6 rounded-lg shadow-lg">
-            <h1 className="text-3xl font-bold mb-4 ">Cosmic 255555 Sources 📖 :</h1>
+            <h1 className="text-3xl font-bold mb-4 ">Citations</h1>
             <ul className="space-y-4">
                 <li className="bg-opacity-20 bg-white p-4 rounded">
                     <h2 className="text-xl font-semibold mb-2 text-blue-300">Neutron Star Background GIF:</h2>
