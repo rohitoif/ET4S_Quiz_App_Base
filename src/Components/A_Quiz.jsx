@@ -2,7 +2,7 @@ import React from 'react';
 
 const MissionPlanetHopper = ({ setQuizPage }) => {
   const handleQuizPage = () => {
-    setQuizPage(1);
+    setQuizPage(2);
     //0 for MCQ
     //1 for DragNDrop
     //2 for Matching
@@ -29,7 +29,7 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
       
       <div className="w-full max-w-4xl bg-purple-800 bg-opacity-80 rounded-lg p-6 relative backdrop-filter backdrop-blur-sm shadow-2xl mb-20">
 
-        <h1 className="text-4xl font-bold mb-6 text-center bg-pink-600 rounded-full px-6 py-2">Mission Planet Hopper</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center bg-pink-600 rounded-full px-6 py-2">Mission</h1>
         
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-grow">
@@ -51,31 +51,19 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
 
           <div className="md:w-2/5 flex flex-col">
             <div className="bg-pink-600 rounded-t-lg p-2 text-center font-bold text-xl text-white">
-              MISSION STATISTICS
+              Mission Details
             </div>
             <div className="bg-purple-700 rounded-b-lg p-4 shadow-inner flex-grow overflow-y-auto max-h-60 text-white">
               <p className="text-lg">
                 In this mission we explore fascinating concepts like:
                 <br /><br />
-                • The Big Bang Theory
+                • Launching rockets
                 <br />
-                • The expansion of the Universe
+                • Getting back to Earth
                 <br />
-                • Formation of galaxies
+                • Safely navigating space
                 <br />
-                • Star life cycles
-                <br />
-                • Planetary systems
-                <br />
-                • Black holes and neutron stars
-                <br />
-                • Dark matter and dark energy
-                <br />
-                • The cosmic microwave background
-                <br /><br />
-                Get ready to embark on an epic journey through space and time! Prepare your gear, calibrate your instruments, and brace yourself for an adventure of cosmic proportions!
-                <br /><br />
-                Remember: In space, knowledge is your best tool and curiosity your greatest ally. Let's explore the wonders of our universe together!
+                • Astronauts and how the travel
               </p>
             </div>
           </div>

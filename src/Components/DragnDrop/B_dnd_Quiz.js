@@ -197,7 +197,7 @@ const B_DndPage = (props) => {
             marginBottom: '20px',
             textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)'
           }}>
-            You've Launched This Quiz Before!
+            You've already completed this mission.
           </h2>
           <p style={{
             fontSize: '1.5rem',
@@ -206,7 +206,7 @@ const B_DndPage = (props) => {
             lineHeight: '1.6',
             textShadow: '1px 1px 5px rgba(0, 0, 0, 0.7)'
           }}>
-            🚀 You've already completed this mission. Try exploring other quizzes to continue your space adventure!
+            You've already completed this mission.
           </p>
           <button
             onClick={() => navigate(location.state?.from || '/')}

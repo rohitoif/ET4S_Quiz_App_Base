@@ -109,7 +109,7 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
         <div className="power-ups">
           <button className="power-up-button" onClick={handleHack} disabled={hackUsed}>Hack 🛠</button>
           <button className="power-up-button" onClick={handleHint}>Hint 💡</button>
-          <button className="power-up-button" onClick={toggleDialog}>Open Documentation 📖</button>
+          <button className="power-up-button" onClick={toggleDialog}>Open Guide 📖</button>
         </div>
         <div className="hint">{hint}</div>
         <div className="question">
@@ -148,22 +148,22 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
           <h2 className="text-2xl font-bold text-purple-700 mb-4">HOW TO PLAY</h2>
           <div className="space-y-4 text-gray-700">
             <p>
-              Welcome to Match the Following, a stop at your ultimate space adventure! 🌌 Your mission is to match each question with the correct answer.
+              Welcome to the Quiz, where you have to Drag and Drop. Your mission is to drag the correct answer into the space.
             </p>
             <p>
-              Simply click on a question from the left column and then choose the matching answer from the right column. But that's not all— our quiz is packed with interstellar power-ups to help you along your journey:
+              Click with the left mouse button and drag to the answer space while holding the left mouse button, then release the left mouse button.
             </p>
             <p>
-              <span className="font-semibold">⏰ Time Extender:</span> If you're running low on time and need a bit more to figure out your answers, just click the clock icon. This will give you extra seconds on the timer, so you can take your time and make sure you choose the right answers.
+              <span className="font-semibold">🛠 Hack:</span> If you're feeling lost and need some help, just click the Hack icon. The Starfire spaceship will give you the correct answer
             </p>
             <p>
-              <span className="font-semibold">💡 Hint Generator:</span> Feeling lost? Tap the lightbulb for a helpful hint that will guide you toward the right answer. It's like getting a little nudge in the right direction!
+              <span className="font-semibold">💡 Hint Generator:</span> If you're feeling lost and need some help, just click on the Hint icon. The Starfire spaceship will give you a hint
             </p>
             <p>
               Click the purple arrow button on the bottom when you are done with the quiz!
             </p>
             <p className="font-bold text-purple-700">
-              ALL THE BEST RANGER!
+              Good Luck Astronaut!
             </p>
           </div>
         </div>

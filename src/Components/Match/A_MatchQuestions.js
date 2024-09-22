@@ -357,14 +357,14 @@ function A_MatchPage(props) {
             onMouseEnter={handlePlusSignHover}
             onMouseLeave={handlePlusSignLeave}
           >
-           💣
+           ⏰
           </button>
           <button
             className="powerup-btn"
             onClick={handleGiveAnswer}
             disabled={giveAnswerUsed}
           >
-            🤖
+            💡
             {isHoveringQuestionMark && <div className="tooltip">{popupMessage}</div>}
           </button>
           <button className="powerup-btn" onClick={toggleDoc}>
