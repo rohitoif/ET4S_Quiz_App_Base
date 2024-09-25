@@ -20,7 +20,7 @@ function DocumentationModal({ show, onClose }) {
               <span className="font-semibold">⏰ Time Extender:</span> If you're running low on time and need a bit more to figure out your answers, just click the Clock icon. The Starfire spaceship will give you more time
             </p>
             <p>
-              <span className="font-semibold">💡 Hint Generator:</span> If you're feeling lost and need some help, just click on the Hint icon. The Starfire spaceship will give you a hint
+              <span className="font-semibold">🛠 Fix:</span> If you're feeling lost and need some help, just click the fix icon. The Starfire spaceship will give you the correct answer!
             </p>
             <p>
               Click the purple arrow button on the bottom when you are done with the quiz!

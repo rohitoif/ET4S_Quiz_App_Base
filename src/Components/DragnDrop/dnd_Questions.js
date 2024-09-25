@@ -107,9 +107,9 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
         style={{ backgroundColor: 'transparent', color: 'white', border: '2px solid #8e2de2' }}
       >
         <div className="power-ups">
-          <button className="power-up-button" onClick={handleHack} disabled={hackUsed}>Hack 🛠</button>
-          <button className="power-up-button" onClick={handleHint}>Hint 💡</button>
-          <button className="power-up-button" onClick={toggleDialog}>Open Guide 📖</button>
+          <button className="power-up-button" onClick={handleHack} disabled={hackUsed}>🛠</button>
+          <button className="power-up-button" onClick={handleHint}>💡</button>
+          <button className="power-up-button" onClick={toggleDialog}>❓</button>
         </div>
         <div className="hint">{hint}</div>
         <div className="question">
@@ -148,13 +148,13 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
           <h2 className="text-2xl font-bold text-purple-700 mb-4">HOW TO PLAY</h2>
           <div className="space-y-4 text-gray-700">
             <p>
-              Welcome to the Quiz, where you have to Drag and Drop. Your mission is to drag the correct answer into the space.
+              Welcome to the Quiz, where you have to Drag and Drop. Your mission is to drag the correct answer into the blank space.
             </p>
             <p>
               Click with the left mouse button and drag to the answer space while holding the left mouse button, then release the left mouse button.
             </p>
             <p>
-              <span className="font-semibold">🛠 Hack:</span> If you're feeling lost and need some help, just click the Hack icon. The Starfire spaceship will give you the correct answer
+              <span className="font-semibold">🛠 Fix:</span> If you're feeling lost and need some help, just click the fix icon. The Starfire spaceship will give you the correct answer!
             </p>
             <p>
               <span className="font-semibold">💡 Hint Generator:</span> If you're feeling lost and need some help, just click on the Hint icon. The Starfire spaceship will give you a hint

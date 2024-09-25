@@ -235,7 +235,7 @@ function A_MCQPage(props) {
             marginBottom: '20px',
             textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)'
           }}>
-            You've Launched This Quiz Before!
+            You've already completed this mission.
           </h2>
           <p style={{
             fontSize: '1.5rem',
@@ -244,7 +244,7 @@ function A_MCQPage(props) {
             lineHeight: '1.6',
             textShadow: '1px 1px 5px rgba(0, 0, 0, 0.7)'
           }}>
-            🚀 You've already completed this mission. Try exploring other quizzes to continue your space adventure!
+            You've already completed this mission.
           </p>
           <button
             onClick={() => navigate(location.state?.from || '/')}
@@ -328,7 +328,7 @@ function A_MCQPage(props) {
     }}
     id="powerups"
   >
-    💣
+    ⏰
   </motion.button>
   <motion.button
     onClick={handleStrikeOut}
@@ -344,7 +344,7 @@ function A_MCQPage(props) {
     }}
     id="powerups"
   >
-    🌠
+    💡
   </motion.button>
   <motion.button
     onClick={handleSkipQuestion}
@@ -360,7 +360,7 @@ function A_MCQPage(props) {
     }}
     id="powerups"
   >
-    🤖
+    🛠
   </motion.button>
   <motion.button
     className="powerups"
@@ -409,8 +409,8 @@ function A_MCQPage(props) {
           alignItems: 'center',
           zIndex: 1000
         }}>
-          <div>HACKING IN PROGRESS...THE CORRECT ANSWER IS : {mcq[index].correctAnswer}</div>
-          <div style={{ marginTop: '20px' }}>+1 POINT</div>
+          <div>The correct answer is : {mcq[index].correctAnswer}</div>
+          <div style={{ marginTop: '20px' }}>+1 Point</div>
         </div>
       )}
     </div>

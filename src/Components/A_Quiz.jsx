@@ -29,7 +29,7 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
       
       <div className="w-full max-w-4xl bg-purple-800 bg-opacity-80 rounded-lg p-6 relative backdrop-filter backdrop-blur-sm shadow-2xl mb-20">
 
-        <h1 className="text-4xl font-bold mb-6 text-center bg-pink-600 rounded-full px-6 py-2">Mission</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center bg-pink-600 rounded-full px-6 py-2">Mission A</h1>
         
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-grow">
