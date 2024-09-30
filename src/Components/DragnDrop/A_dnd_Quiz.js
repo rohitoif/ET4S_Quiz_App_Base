@@ -12,19 +12,64 @@ let powerUpCount = 0 ;
 let index=0;
 const questions = [
   {
-    id: 1, text: 'React is _ library.', options: ['JavaScript', 'Python', 'Ruby', 'Java'], answer: 'JavaScript'
-  },
-  { id: 2, text: 'The capital of India is _.', options: ['Berlin', 'Delhi', 'Paris', 'Rome'], answer: 'Delhi' },
-  {
-    id: 3,
-    text: 'Which one is a star?',
+    id: 1,
+    text: 'Which one is found in the troposphere?',
     options: [
-      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Erth' },
-      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'saturn' },
-      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'sun' },
-      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'jupiter' }
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
     ],
-    answer: 'sun'
+    answer: 'Plane'
+  },
+  { 
+    id: 2,
+    text: 'Which one is found in the mesosphere?',
+    options: [
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+    ],
+    answer: 'Meteor'
+  },
+  { 
+    id: 3,
+    text: 'Which one is found in the stratosphere?',
+    options: [
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+    ],
+    answer: 'Balloon'
+  },
+  { 
+    id: 4,
+    text: 'Which one is found in the exosphere?',
+    options: [
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+    ],
+    answer: 'Satellite'
+  },
+  {
+    id: 5,
+    text: 'Which one is found in the thermosphere?',
+    options: [
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+    ],
+    answer: 'Aurora'
   }
 ];
 
@@ -189,7 +234,7 @@ const B_DndPage = (props) => {
             marginBottom: '20px',
             textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)'
           }}>
-            You've already completed this mission.
+            You've cannot attempt this mission again.
           </h2>
           <p style={{
             fontSize: '1.5rem',

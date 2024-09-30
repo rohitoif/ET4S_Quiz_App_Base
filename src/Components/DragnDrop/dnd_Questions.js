@@ -145,7 +145,7 @@ const Question = ({ question, onSubmit, hackUsed, setHackUsed , dialogOpen , set
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
-          <h2 className="text-2xl font-bold text-purple-700 mb-4">HOW TO PLAY</h2>
+          <h2 className="text-2xl font-bold text-purple-700 mb-4">How to Play</h2>
           <div className="space-y-4 text-gray-700">
             <p>
               Welcome to the Quiz, where you have to Drag and Drop. Your mission is to drag the correct answer into the blank space.
