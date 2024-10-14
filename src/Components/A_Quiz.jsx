@@ -2,7 +2,7 @@ import React from 'react';
 
 const MissionPlanetHopper = ({ setQuizPage }) => {
   const handleQuizPage = () => {
-    setQuizPage(1);
+    setQuizPage(2);
     //0 for MCQ
     //1 for DragNDrop
     //2 for Matching
@@ -34,10 +34,10 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-grow">
             <div className="bg-pink-600 rounded-lg p-4 flex items-center mb-4 shadow-md">
-              <span className="text-5xl mr-4">🌕</span>
+              <span className="text-5xl mr-4">🌙</span>
               <div>
-               <h2 className="text-2xl font-semibold text-white">Pre-Launch</h2>
-              <p className="text-lg text-white">Learn about the layers of our Atmosphere before start your Journey through the Cosmos</p>
+               <h2 className="text-2xl font-semibold text-white">In Orbit!</h2>
+              <p className="text-lg text-white">Learn about the orbits around our home Earth</p>
               </div>
             </div>
             <button 
@@ -57,13 +57,13 @@ const MissionPlanetHopper = ({ setQuizPage }) => {
               <p className="text-lg">
                 In this mission we explore fascinating concepts like:
                 <br /><br />
-                • The different layers of our atmosphere
+                • The orbits around Earth
                 <br />
-                • What are in the different layers?
+                • Which orbit is the ISS in?
                 <br />
-                • Where does space begin?
+                • What orbit is closest?
                 <br />
-                • How can we get to space?
+                • Where are the GPS satellites?
               </p>
             </div>
           </div>

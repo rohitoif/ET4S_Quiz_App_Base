@@ -6,19 +6,17 @@ import { db, updateDoc, doc, getDoc } from '../../firebase.js'; // Import Firest
 import { useUser } from '../../UserContext.js';
 import DocumentationModal from './DocumentationModal'
 const questions = [
-  { id: 1, question: "BLACK HOLE", answerId: 1 },
-  { id: 2, question: "COMET", answerId: 2 },
-  { id: 3, question: "NEBULA", answerId: 3 },
-  { id: 4, question: "ASTEROID", answerId: 4 },
-  { id: 5, question: "DWARF PLANET", answerId: 5 },
+  { id: 1, question: "LEO", answerId: 1 },
+  { id: 2, question: "MEO", answerId: 2 },
+  { id: 3, question: "HEO", answerId: 3 },
+  { id: 4, question: "GEO", answerId: 4 },
 ];
 
 const answers = [
-  { id: 4, answer: "Rocky body in space" },
-  { id: 2, answer: "Icy body with a tail" },
-  { id: 1, answer: "Massive star collapse" },
-  { id: 5, answer: "Small celestial body orbiting the sun" },
-  { id: 3, answer: "Star-forming region" },
+  { id: 4, answer: "Furthest orbit from the Earth" },
+  { id: 2, answer: "Has GPS satellites" },
+  { id: 1, answer: "Has the ISS and closest to Earth" },
+  { id: 3, answer: "Has orbit with oblong shape" },
 ];
 
 
