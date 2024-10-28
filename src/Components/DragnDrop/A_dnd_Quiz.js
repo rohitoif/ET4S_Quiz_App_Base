@@ -13,63 +13,63 @@ let index=0;
 const questions = [
   {
     id: 1,
-    text: 'Which one is found in the troposphere?',
+    text: 'Which constellation is a dragon and is visible year-round?',
     options: [
-      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
-      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
-      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
-      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
-      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Andromeda' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Draco' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Leo' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Orion' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Sagittarius' }
     ],
-    answer: 'Plane'
+    answer: 'Draco'
   },
   { 
     id: 2,
-    text: 'Which one is found in the mesosphere?',
+    text: 'Which constellation is one of the most famous animal zodiacs?',
     options: [
-      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
-      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
-      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
-      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
-      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Andromeda' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Draco' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Leo' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Orion' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Sagittarius' }
     ],
-    answer: 'Meteor'
+    answer: 'Leo'
   },
   { 
     id: 3,
-    text: 'Which one is found in the stratosphere?',
+    text: 'Which constellation has the closest galaxy to ours?',
     options: [
-      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
-      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
-      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
-      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
-      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Andromeda' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Draco' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Leo' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Orion' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Sagittarius' }
     ],
-    answer: 'Balloon'
+    answer: 'Andromeda'
   },
   { 
     id: 4,
-    text: 'Which one is found in the exosphere?',
+    text: 'Which constellation has the center of the Milky-Way and is an archer?',
     options: [
-      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
-      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
-      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
-      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
-      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Andromeda' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Draco' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Leo' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Orion' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Sagittarius' }
     ],
-    answer: 'Satellite'
+    answer: 'Sagittarius'
   },
   {
     id: 5,
-    text: 'Which one is found in the thermosphere?',
+    text: 'Which cosntellation is also called "The Hunter"?',
     options: [
-      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Plane' },
-      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Balloon' },
-      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Meteor' },
-      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Aurora' },
-      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Satellite' }
+      { type: 'image', src: './DND_pics/A_dndimg1a.jpg', alt: 'Andromeda' },
+      { type: 'image', src: './DND_pics/A_dndimg1b.jpg', alt: 'Draco' },
+      { type: 'image', src: './DND_pics/A_dndimg1c.jpg', alt: 'Leo' },
+      { type: 'image', src: './DND_pics/A_dndimg1d.jpg', alt: 'Orion' },
+      { type: 'image', src: './DND_pics/A_dndimg1e.jpg', alt: 'Sagittarius' }
     ],
-    answer: 'Aurora'
+    answer: 'Orion'
   }
 ];
 
