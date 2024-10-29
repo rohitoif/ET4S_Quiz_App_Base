@@ -1,0 +1,71 @@
+/* Login.css */
+.login_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000, #4a148c, #00274d);
+}
+
+.login_card {
+    width: 400px;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+
+.error {
+    margin-bottom: 20px;
+    color: red;
+}
+
+.inputGroup {
+    margin-bottom: 20px;
+}
+
+.input {
+    width: 100%;
+    color: black;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.emailButton {
+    background-color: #4a148c;
+    color: #fff;
+}
+
+.googleButton {
+    background-color: #db4437;
+    color: #fff;
+}
+
+
+.adminButton {
+    background-color: black;
+    /* Black color for admin login */
+    color: white;
+    /* White text for visibility */
+}
