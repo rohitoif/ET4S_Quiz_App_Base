@@ -31,6 +31,7 @@ import MissionPlanetHopper2 from './Components/B_Quiz.jsx';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Citations from './Components/Citations.jsx';
 import Header2 from './Components/Header2';
+import Admin from './Components/Admin'; // Adjust the path as necessary
 
 // lib/utils.ts
 import clsx from "clsx";
@@ -201,6 +202,15 @@ root.render(
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+
           </Routes>
         </Router>
       </UserProvider>

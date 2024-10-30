@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUserId } = useUser();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e) => {debugger;
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -21,7 +21,7 @@ const Login = () => {
 
       const userId = await getUserIdByEmail(userEmail);
       if (userId) {
-        const role = await checkIfAdmin(userId);
+        const role = await checkIfAdmin(userEmail);
         setUserId(userId);
         navigate(role ? '/admin' : '/home');
       } else {
@@ -33,7 +33,7 @@ const Login = () => {
     }
   };
 
-  const handleAdminLogin = async (e) => {
+  const handleAdminLogin = async (e) => {debugger;
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -41,7 +41,7 @@ const Login = () => {
 
       const userId = await getUserIdByEmail(userEmail);
       if (userId) {
-        const isAdmin = await checkIfAdmin(userId);
+        const isAdmin = await checkIfAdmin(userEmail);
         if (isAdmin) {
           setUserId(userId);
           navigate('/admin');
@@ -65,7 +65,7 @@ const Login = () => {
 
       const userId = await getUserIdByEmail(userEmail);
       if (userId) {
-        const role = await checkIfAdmin(userId);
+        const role = await checkIfAdmin(userEmail);
         setUserId(userId);
         navigate(role ? '/admin' : '/home');
       } else {
@@ -77,7 +77,7 @@ const Login = () => {
     }
   };
 
-  const getUserIdByEmail = async (email) => {
+  const getUserIdByEmail = async (email) => {debugger;
     const q = query(collection(db, 'et4s_main'), where('email', '==', email));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
@@ -87,8 +87,8 @@ const Login = () => {
     return null;
   };
 
-  const checkIfAdmin = async (userId) => {
-    const q = query(collection(db, 'et4s_main'), where('id', '==', userId));
+  const checkIfAdmin = async (userEmail) => {debugger;
+    const q = query(collection(db, 'et4s_main'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
       const userDoc = querySnapshot.docs[0];

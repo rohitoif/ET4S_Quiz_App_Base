@@ -1,0 +1,76 @@
+/* Admin.css */
+
+.admin-dashboard {
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 70px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+text-center{
+    font-weight: bold;
+    font-style: italic;
+}
+h1 {
+    margin-bottom: 20px;
+    color: #333; /* Dark text for the heading */
+}
+
+.user-table {
+    color: black; /* Ensures text color is black */
+}
+
+.thead-dark th {
+    background-color: #343a40; /* Dark background for the header */
+    color: white; /* White text in the header */
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem; /* Smaller heading on small screens */
+    }
+
+    .admin-dashboard {
+        padding: 15px; /* Less padding on smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.2rem; /* Even smaller heading */
+    }
+
+    .table {
+        font-size: 0.9rem; /* Smaller font size for the table */
+    }
+}
+
+/* pagination */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #c0c0c0; /* Disabled button color */
+    cursor: not-allowed;
+}
+
+.pagination span {
+    align-self: center;
+    margin: 0 10px;
+}
+

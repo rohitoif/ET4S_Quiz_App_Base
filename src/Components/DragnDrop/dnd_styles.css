@@ -141,9 +141,9 @@ body {
 
 .table {
   background: transparent;
-  display: grid;
+  /* display: grid;
   gap: 8px;
-  width: 100%;
+  width: 100%; */
 }
 
 .table-row {
